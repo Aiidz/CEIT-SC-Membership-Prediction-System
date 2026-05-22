@@ -20,50 +20,128 @@ st.set_page_config(
 # Custom Styling for Premium Look and Google Fonts
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 html, body, [class*="css"] {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
-/* Glassmorphism style container */
+/* Material Design 3 Card Container */
 .glass-container {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: #191613; /* Warm dark surface tone */
+    border-radius: 24px; /* Expressive rounded corners */
+    border: 1px solid rgba(255, 143, 0, 0.12);
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255, 143, 0, 0.08);
+    border-color: rgba(255, 143, 0, 0.25);
 }
 
 .gradient-text {
-    background: linear-gradient(90deg, #FF4B4B, #FF8F8F, #4B8FFF);
+    background: linear-gradient(90deg, #FF5722, #FFA000, #FFE082);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 .metric-box {
-    background: rgba(75, 143, 255, 0.08);
-    border-left: 5px solid #4B8FFF;
-    padding: 15px;
-    border-radius: 4px;
+    background: rgba(255, 160, 0, 0.06);
+    border-left: 4px solid #FFA000;
+    padding: 16px 20px;
+    border-radius: 12px;
 }
 
 .metric-box-success {
-    background: rgba(46, 204, 113, 0.08);
-    border-left: 5px solid #2ECC71;
-    padding: 15px;
-    border-radius: 4px;
+    background: rgba(46, 204, 113, 0.06);
+    border-left: 4px solid #2ECC71;
+    padding: 16px 20px;
+    border-radius: 12px;
 }
 
 .metric-box-warning {
-    background: rgba(241, 196, 15, 0.08);
-    border-left: 5px solid #F1C40F;
-    padding: 15px;
-    border-radius: 4px;
+    background: rgba(241, 196, 15, 0.06);
+    border-left: 4px solid #F1C40F;
+    padding: 16px 20px;
+    border-radius: 12px;
+}
+
+/* Material 3 Slider Controls */
+div[data-baseweb="slider"] > div > div {
+    background: linear-gradient(90deg, #FF5722, #FFA000) !important;
+    height: 8px !important;
+    border-radius: 4px !important;
+}
+div[data-baseweb="slider"] [role="slider"] {
+    background-color: #FFA000 !important;
+    border: 3px solid #191613 !important;
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Material 3 Segmented/Pill Tabs */
+div[role="tablist"] {
+    border-bottom: 1px solid rgba(255, 143, 0, 0.1) !important;
+    gap: 12px !important;
+}
+button[data-baseweb="tab"] {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 1.05em !important;
+    font-weight: 600 !important;
+    color: #A59E92 !important;
+    padding: 12px 24px !important;
+    border-radius: 20px 20px 0 0 !important;
+    transition: all 0.2s ease !important;
+}
+button[data-baseweb="tab"]:hover {
+    color: #FFE082 !important;
+}
+button[aria-selected="true"] {
+    color: #FFA000 !important;
+    border-bottom: 3px solid #FFA000 !important;
+}
+
+/* Warm Dark Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #0E0C0A !important;
+    border-right: 1px solid rgba(255, 143, 0, 0.08);
+}
+
+/* Material 3 Pill Button Shape */
+.stButton>button {
+    background: linear-gradient(90deg, #FF5722, #FFA000) !important;
+    color: #0E0C0A !important; /* High contrast text */
+    border: none !important;
+    border-radius: 100px !important; /* Full pill-shaped */
+    padding: 12px 32px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 0.95em !important;
+    letter-spacing: 0.3px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.stButton>button:hover {
+    transform: scale(1.02) !important;
+    box-shadow: 0 6px 20px rgba(255, 143, 0, 0.25) !important;
+    background: linear-gradient(90deg, #FFA000, #FFE082) !important;
+}
+.stButton>button:active {
+    transform: scale(0.98) !important;
+}
+
+/* Form input elements */
+div[data-baseweb="input"] > div, div[data-baseweb="select"] > div {
+    border-radius: 16px !important;
+    border-color: rgba(255, 143, 0, 0.15) !important;
+    background-color: #1F1B16 !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -79,6 +157,8 @@ model_exists = os.path.exists(MODEL_PATH) and os.path.exists(CLEAN_DATA_PATH)
 # ==========================================
 # SIDEBAR NAVIGATION & CONTROLS
 # ==========================================
+if os.path.exists("logo.jpg"):
+    st.sidebar.image("logo.jpg", use_container_width=True)
 st.sidebar.markdown("<h2 class='gradient-text'>CEIT-SC ML System</h2>", unsafe_allow_html=True)
 st.sidebar.caption("Cavite State University — Main Campus")
 
@@ -103,7 +183,14 @@ else:
 # ONBOARDING SETUP WIZARD (No Model Found)
 # ==========================================
 if not model_exists:
-    st.markdown("<h1 class='gradient-text'>Welcome to CEIT-SC Membership Prediction System</h1>", unsafe_allow_html=True)
+    if os.path.exists("logo.jpg"):
+        col_logo, col_title = st.columns([1, 6])
+        with col_logo:
+            st.image("logo.jpg", width=120)
+        with col_title:
+            st.markdown("<h1 class='gradient-text' style='margin-top: 15px;'>Welcome to CEIT-SC Membership Prediction System</h1>", unsafe_allow_html=True)
+    else:
+        st.markdown("<h1 class='gradient-text'>Welcome to CEIT-SC Membership Prediction System</h1>", unsafe_allow_html=True)
     st.write("A predictive analytics application using Multiple Linear Regression to forecast semester membership collection counts.")
     
     st.markdown("""
@@ -179,8 +266,16 @@ else:
     sklearn_model, ols_model, training_results = load_model_data()
     
     # Header
-    st.markdown("<h1 class='gradient-text'>CEIT-SC Membership Prediction & Analytics</h1>", unsafe_allow_html=True)
-    st.caption("A Decision Support Tool for Cavite State University - College of Engineering and Information Technology Student Council")
+    if os.path.exists("logo.jpg"):
+        col_header_logo, col_header_text = st.columns([1, 8])
+        with col_header_logo:
+            st.image("logo.jpg", width=100)
+        with col_header_text:
+            st.markdown("<h1 class='gradient-text' style='margin-bottom: 0px; margin-top: 5px;'>CEIT-SC Membership Prediction & Analytics</h1>", unsafe_allow_html=True)
+            st.caption("A Decision Support Tool for Cavite State University - College of Engineering and Information Technology Student Council")
+    else:
+        st.markdown("<h1 class='gradient-text'>CEIT-SC Membership Prediction & Analytics</h1>", unsafe_allow_html=True)
+        st.caption("A Decision Support Tool for Cavite State University - College of Engineering and Information Technology Student Council")
     
     # Dynamic tabs
     tab_home, tab_explorer, tab_eda, tab_model, tab_predict = st.tabs([
