@@ -18,238 +18,327 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Set matplotlib and seaborn dark mode parameters
-plt.style.use("dark_background")
+# Theme Configuration and Styling (Material 3 Dynamic Theme System)
+THEMES = {
+    "dark": {
+        "bg_app": "#120E0B",
+        "bg_app_header": "rgba(18, 14, 11, 0.85)",
+        "bg_sidebar": "#120E0B",
+        "text_primary": "#EFEBE9",
+        "text_muted": "#A69B95",
+        "text_glow": "#FFF8E1",
+        "border_color": "rgba(255, 143, 0, 0.08)",
+        "border_color_hero": "rgba(255, 143, 0, 0.15)",
+        "border_color_input": "rgba(255, 143, 0, 0.15)",
+        "bg_card": "#1C1612",
+        "bg_hero": "linear-gradient(135deg, #1E1712 0%, #15100C 100%)",
+        "bg_card_tonal": "#2C2014",
+        "bg_input": "#241A12",
+        "bg_tablist": "#1C1612",
+        "bg_tab_hover": "rgba(255, 143, 0, 0.06)",
+        "bg_tab_active": "rgba(255, 143, 0, 0.16)",
+        "text_tab_active": "#FFA000",
+        "text_tab_hover": "#FFF8E1",
+        "bg_download": "#2C2014",
+        "text_download": "#FFA000",
+        "border_download": "rgba(255, 143, 0, 0.3)",
+        "chart_bg": "#120E0B",
+        "chart_axes_bg": "#1E1712",
+        "chart_text": "#EFEBE9",
+        "chart_label": "#A69B95",
+        "chart_grid": "#291E11",
+        "chart_spine": "#3A291A",
+        "chart_legend_bg": "#1E1712",
+        "chart_legend_border": "#3A291A",
+        "heatmap_colors": ["#2C1F15", "#8D3B0D", "#E65100", "#FFB300", "#FFF8E1"]
+    },
+    "light": {
+        "bg_app": "#FDFBF9",
+        "bg_app_header": "rgba(253, 251, 249, 0.85)",
+        "bg_sidebar": "#F5EFEA",
+        "text_primary": "#2C1F15",
+        "text_muted": "#7C6E65",
+        "text_glow": "#5D1B00",
+        "border_color": "rgba(255, 87, 34, 0.12)",
+        "border_color_hero": "rgba(255, 87, 34, 0.2)",
+        "border_color_input": "rgba(255, 87, 34, 0.2)",
+        "bg_card": "#FFFDFB",
+        "bg_hero": "linear-gradient(135deg, #FFFDFB 0%, #F5EFEA 100%)",
+        "bg_card_tonal": "#EFE7E0",
+        "bg_input": "#FFFDFB",
+        "bg_tablist": "#F5EFEA",
+        "bg_tab_hover": "rgba(255, 87, 34, 0.06)",
+        "bg_tab_active": "rgba(255, 87, 34, 0.12)",
+        "text_tab_active": "#FF5722",
+        "text_tab_hover": "#5D1B00",
+        "bg_download": "#EFE7E0",
+        "text_download": "#FF5722",
+        "border_download": "rgba(255, 87, 34, 0.3)",
+        "chart_bg": "#FDFBF9",
+        "chart_axes_bg": "#FFFDFB",
+        "chart_text": "#2C1F15",
+        "chart_label": "#7C6E65",
+        "chart_grid": "#F5EFEA",
+        "chart_spine": "#EFE7E0",
+        "chart_legend_bg": "#FFFDFB",
+        "chart_legend_border": "#EFE7E0",
+        "heatmap_colors": ["#FFF8E1", "#FFE082", "#FFB300", "#E65100", "#5D1B00"]
+    }
+}
+
+if "theme" not in st.session_state:
+    st.session_state.theme = "dark"
+
+t = THEMES[st.session_state.theme]
+
+# Set matplotlib and seaborn dynamic parameters
+if st.session_state.theme == "dark":
+    plt.style.use("dark_background")
+else:
+    plt.style.use("default")
+
 plt.rcParams.update({
-    "figure.facecolor": "#120E0B",
-    "axes.facecolor": "#1E1712",
-    "savefig.facecolor": "#120E0B",
-    "text.color": "#EFEBE9",
-    "axes.labelcolor": "#A69B95",
-    "xtick.color": "#A69B95",
-    "ytick.color": "#A69B95",
-    "grid.color": "#291E11",
+    "figure.facecolor": t["chart_bg"],
+    "axes.facecolor": t["chart_axes_bg"],
+    "savefig.facecolor": t["chart_bg"],
+    "text.color": t["chart_text"],
+    "axes.labelcolor": t["chart_label"],
+    "xtick.color": t["chart_label"],
+    "ytick.color": t["chart_label"],
+    "grid.color": t["chart_grid"],
     "font.family": "sans-serif"
 })
 
-# Custom Styling for Premium Look (Google Material 3 Expressive Guidelines)
-st.markdown("""
+# Custom Styling for Premium Look (Google Material 3 Expressive Guidelines with Dynamic CSS Variables)
+st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
+/* CSS Theme Variables */
+:root {{
+    --bg-app: {t['bg_app']};
+    --bg-sidebar: {t['bg_sidebar']};
+    --bg-card: {t['bg_card']};
+    --bg-card-tonal: {t['bg_card_tonal']};
+    --text-primary: {t['text_primary']};
+    --text-muted: {t['text_muted']};
+    --border-color: {t['border_color']};
+    --text-glow: {t['text_glow']};
+}}
+
 /* App resets and baseline */
-html, body, [class*="css"] {
+html, body, [class*="css"] {{
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-}
+}}
 
-.stApp {
-    background-color: #120E0B !important;
-    color: #EFEBE9 !important;
-}
+.stApp {{
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+}}
 
-.stAppHeader {
-    background-color: rgba(18, 14, 11, 0.85) !important;
+.stAppHeader {{
+    background-color: {t['bg_app_header']} !important;
     backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 143, 0, 0.05);
-}
+    border-bottom: 1px solid var(--border-color);
+}}
 
 /* Custom Typography */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {{
     font-family: 'Outfit', sans-serif !important;
     font-weight: 700 !important;
     letter-spacing: -0.02em !important;
-    color: #EFEBE9 !important;
-}
+    color: var(--text-primary) !important;
+}}
 
-.gradient-text {
+.gradient-text {{
     background: linear-gradient(135deg, #FF9100 0%, #FF3D00 50%, #FFE082 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
-}
+}}
 
 /* Material 3 Expressive Containers */
-.m3-hero {
-    background: linear-gradient(135deg, #1E1712 0%, #15100C 100%);
+.m3-hero {{
+    background: {t['bg_hero']};
     border-radius: 32px;
-    border: 1px solid rgba(255, 143, 0, 0.15);
+    border: 1px solid {t['border_color_hero']};
     padding: 32px;
     margin-bottom: 32px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    box-shadow: {"0 12px 30px rgba(0, 0, 0, 0.35)" if st.session_state.theme == "dark" else "0 12px 30px rgba(0, 0, 0, 0.05)"};
     display: flex;
     align-items: center;
     gap: 24px;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+}}
 
-.m3-hero:hover {
+.m3-hero:hover {{
     border-color: rgba(255, 143, 0, 0.3);
     box-shadow: 0 16px 40px rgba(255, 143, 0, 0.08);
-}
+}}
 
-.m3-card {
-    background-color: #1C1612;
+.m3-card {{
+    background-color: var(--bg-card);
     border-radius: 28px;
-    border: 1px solid rgba(255, 143, 0, 0.08);
+    border: 1px solid var(--border-color);
     padding: 28px;
     margin-bottom: 24px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: {"0 8px 24px rgba(0, 0, 0, 0.25)" if st.session_state.theme == "dark" else "0 8px 24px rgba(0, 0, 0, 0.03)"};
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+}}
 
-.m3-card:hover {
+.m3-card:hover {{
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(255, 143, 0, 0.08);
+    box-shadow: {"0 12px 32px rgba(255, 143, 0, 0.08)" if st.session_state.theme == "dark" else "0 12px 32px rgba(255, 87, 34, 0.05)"};
     border-color: rgba(255, 143, 0, 0.2);
-}
+}}
 
-.m3-card-tonal {
-    background-color: #2C2014;
+.m3-card-tonal {{
+    background-color: var(--bg-card-tonal);
     border-radius: 28px;
     padding: 28px;
     margin-bottom: 24px;
-    border: 1px solid rgba(255, 143, 0, 0.05);
-}
+    border: 1px solid var(--border-color);
+}}
 
-.m3-card-outlined {
+.m3-card-outlined {{
     background-color: transparent;
     border-radius: 28px;
-    border: 2px solid rgba(255, 143, 0, 0.15);
+    border: 2px solid {t['border_color_hero']};
     padding: 28px;
     margin-bottom: 24px;
     transition: all 0.3s ease;
-}
+}}
 
-.m3-card-outlined:hover {
+.m3-card-outlined:hover {{
     border-color: rgba(255, 143, 0, 0.3);
     background-color: rgba(255, 143, 0, 0.02);
-}
+}}
 
 /* Material Symbols Integration styles */
-.material-symbols-outlined {
+.material-symbols-outlined {{
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     vertical-align: middle;
     display: inline-block;
-}
+}}
 
 /* Custom M3 Metrics Panel */
-.m3-metric-card {
-    background-color: #1C1612;
+.m3-metric-card {{
+    background-color: var(--bg-card);
     border-radius: 24px;
-    border: 1px solid rgba(255, 143, 0, 0.08);
+    border: 1px solid var(--border-color);
     padding: 20px;
     display: flex;
     align-items: center;
     gap: 16px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    box-shadow: {"0 6px 18px rgba(0, 0, 0, 0.2)" if st.session_state.theme == "dark" else "0 6px 18px rgba(0, 0, 0, 0.03)"};
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+}}
 
-.m3-metric-card:hover {
+.m3-metric-card:hover {{
     transform: translateY(-2px);
     border-color: rgba(255, 143, 0, 0.18);
     box-shadow: 0 10px 24px rgba(255, 143, 0, 0.06);
-}
+}}
 
 /* Custom M3 Segmented Navigation Tabs */
-div[role="tablist"] {
-    background-color: #1C1612 !important;
+div[role="tablist"] {{
+    background-color: {t['bg_tablist']} !important;
     border-radius: 28px !important;
     padding: 8px !important;
-    border: 1px solid rgba(255, 143, 0, 0.08) !important;
+    border: 1px solid var(--border-color) !important;
     gap: 8px !important;
     margin-bottom: 32px !important;
-}
+}}
 
-button[data-baseweb="tab"] {
+button[data-baseweb="tab"] {{
     font-family: 'Outfit', sans-serif !important;
     font-size: 0.95em !important;
     font-weight: 600 !important;
-    color: #A69B95 !important;
+    color: var(--text-muted) !important;
     padding: 12px 24px !important;
     border-radius: 20px !important;
     border: none !important;
     background-color: transparent !important;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
     margin: 0 !important;
-}
+}}
 
-button[data-baseweb="tab"]:hover {
-    color: #FFF8E1 !important;
-    background-color: rgba(255, 143, 0, 0.06) !important;
-}
+button[data-baseweb="tab"]:hover {{
+    color: {t['text_tab_hover']} !important;
+    background-color: {t['bg_tab_hover']} !important;
+}}
 
-button[data-baseweb="tab"][aria-selected="true"] {
-    background-color: rgba(255, 143, 0, 0.16) !important;
-    color: #FFA000 !important;
+button[data-baseweb="tab"][aria-selected="true"] {{
+    background-color: {t['bg_tab_active']} !important;
+    color: {t['text_tab_active']} !important;
     font-weight: 700 !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
-}
+    box-shadow: {"0 4px 12px rgba(0, 0, 0, 0.25)" if st.session_state.theme == "dark" else "0 4px 10px rgba(0, 0, 0, 0.05)"} !important;
+}}
 
 /* Hide default bottom active-bar */
-button[data-baseweb="tab"][aria-selected="true"]::after {
+button[data-baseweb="tab"][aria-selected="true"]::after {{
     display: none !important;
-}
+}}
 
 /* Input Fields styling overrides */
 div[data-baseweb="input"] > div, 
 div[data-baseweb="select"] > div, 
-div[data-baseweb="base-input"] {
+div[data-baseweb="base-input"] {{
     border-radius: 16px !important;
-    border: 1.5px solid rgba(255, 143, 0, 0.15) !important;
-    background-color: #241A12 !important;
-    color: #EFEBE9 !important;
+    border: 1.5px solid {t['border_color_input']} !important;
+    background-color: {t['bg_input']} !important;
+    color: var(--text-primary) !important;
     transition: all 0.3s ease !important;
-}
+}}
 
 div[data-baseweb="input"]:focus-within > div, 
-div[data-baseweb="select"]:focus-within > div {
+div[data-baseweb="select"]:focus-within > div {{
     border-color: #FFA000 !important;
     box-shadow: 0 0 10px rgba(255, 160, 0, 0.2) !important;
-}
+}}
 
 /* Sliders */
-div[data-baseweb="slider"] > div > div {
+div[data-baseweb="slider"] > div > div {{
     background: linear-gradient(90deg, #FF5722, #FFA000) !important;
     height: 10px !important;
     border-radius: 5px !important;
-}
+}}
 
-div[data-baseweb="slider"] [role="slider"] {
+div[data-baseweb="slider"] [role="slider"] {{
     background-color: #FFA000 !important;
-    border: 3px solid #1C1612 !important;
+    border: 3px solid var(--bg-card) !important;
     width: 24px !important;
     height: 24px !important;
     border-radius: 50% !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
     transition: all 0.2s ease !important;
-}
+}}
 
-div[data-baseweb="slider"] [role="slider"]:hover {
+div[data-baseweb="slider"] [role="slider"]:hover {{
     transform: scale(1.2) !important;
     box-shadow: 0 4px 12px rgba(255, 160, 0, 0.4) !important;
-}
+}}
 
 /* Radio buttons styling */
-div[data-testid="stMarkdownContainer"] p {
+div[data-testid="stMarkdownContainer"] p {{
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-}
+}}
 
-div[data-baseweb="radio"] label {
+div[data-baseweb="radio"] label {{
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-    color: #EFEBE9 !important;
+    color: var(--text-primary) !important;
     font-weight: 500 !important;
-}
+}}
 
-div[role="radiogroup"] {
+div[role="radiogroup"] {{
     gap: 16px !important;
-}
+}}
 
 /* Buttons */
-.stButton>button {
+.stButton>button {{
     background: linear-gradient(135deg, #FF5722 0%, #FFA000 100%) !important;
-    color: #120E0B !important;
+    color: #FFFFFF !important;
     border: none !important;
     border-radius: 100px !important;
     padding: 12px 36px !important;
@@ -259,77 +348,76 @@ div[role="radiogroup"] {
     letter-spacing: 0.2px !important;
     box-shadow: 0 6px 18px rgba(255, 87, 34, 0.25) !important;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
+}}
 
-.stButton>button:hover {
+.stButton>button:hover {{
     transform: translateY(-2px) scale(1.02) !important;
     box-shadow: 0 10px 24px rgba(255, 160, 0, 0.4) !important;
     background: linear-gradient(135deg, #FFA000 0%, #FFE082 100%) !important;
-}
+    color: #120E0B !important;
+}}
 
-.stButton>button:active {
+.stButton>button:active {{
     transform: translateY(1px) scale(0.98) !important;
-}
+}}
 
 /* Reset button in sidebar spec */
-[data-testid="stSidebar"] button {
-    background: #2C1A1A !important;
+[data-testid="stSidebar"] button {{
+    background: {"#2C1A1A" if st.session_state.theme == "dark" else "#FCE8E6"} !important;
     color: #FF5722 !important;
     border: 1px solid rgba(255, 87, 34, 0.3) !important;
     border-radius: 100px !important;
     padding: 8px 20px !important;
     font-size: 0.85em !important;
     box-shadow: none !important;
-}
-[data-testid="stSidebar"] button:hover {
+}}
+[data-testid="stSidebar"] button:hover {{
     background: #FF5722 !important;
-    color: #120E0B !important;
+    color: #FFFFFF !important;
     border-color: #FF5722 !important;
-}
+}}
 
 /* Download & File Upload controls */
-.stDownloadButton>button {
-    background: #2C2014 !important;
-    color: #FFA000 !important;
-    border: 1.5px solid rgba(255, 143, 0, 0.3) !important;
+.stDownloadButton>button {{
+    background: {t['bg_download']} !important;
+    color: {t['text_download']} !important;
+    border: 1.5px solid {t['border_download']} !important;
     border-radius: 100px !important;
     padding: 10px 28px !important;
     font-family: 'Outfit', sans-serif !important;
     font-weight: 600 !important;
     transition: all 0.3s ease !important;
-}
+}}
 
-.stDownloadButton>button:hover {
-    background-color: rgba(255, 143, 0, 0.08) !important;
+.stDownloadButton>button:hover {{
+    background: #FFA000 !important;
+    color: #120E0B !important;
     border-color: #FFA000 !important;
-    color: #FFF8E1 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(255, 143, 0, 0.15) !important;
-}
+}}
 
-[data-testid="stFileUploader"] {
-    background-color: #1C1612 !important;
-    border: 2px dashed rgba(255, 143, 0, 0.25) !important;
+[data-testid="stFileUploader"] {{
+    background-color: var(--bg-card) !important;
+    border: 2px dashed {t['border_color_input']} !important;
     border-radius: 24px !important;
     padding: 24px !important;
     transition: all 0.3s ease !important;
-}
+}}
 
-[data-testid="stFileUploader"]:hover {
+[data-testid="stFileUploader"]:hover {{
     border-color: #FFA000 !important;
-    background-color: rgba(255, 143, 0, 0.04) !important;
-}
+    background-color: {t['bg_tab_hover']} !important;
+}}
 
 /* Dataframe customization */
-[data-testid="stDataFrame"] {
-    border: 1px solid rgba(255, 143, 0, 0.08) !important;
+[data-testid="stDataFrame"] {{
+    border: 1px solid var(--border-color) !important;
     border-radius: 20px !important;
     overflow: hidden !important;
-    background-color: #1C1612 !important;
-}
+    background-color: var(--bg-card) !important;
+}}
 
 /* Custom beautiful alert blocks */
-.m3-alert {
+.m3-alert {{
     background-color: rgba(255, 143, 0, 0.08);
     border-left: 4px solid #FFA000;
     border-radius: 16px;
@@ -338,9 +426,9 @@ div[role="radiogroup"] {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-}
+}}
 
-.m3-alert-warning {
+.m3-alert-warning {{
     background-color: rgba(255, 61, 0, 0.08);
     border-left: 4px solid #FF3D00;
     border-radius: 16px;
@@ -349,9 +437,9 @@ div[role="radiogroup"] {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-}
+}}
 
-.m3-alert-info {
+.m3-alert-info {{
     background-color: rgba(41, 121, 255, 0.08);
     border-left: 4px solid #2979FF;
     border-radius: 16px;
@@ -360,10 +448,10 @@ div[role="radiogroup"] {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-}
+}}
 
 /* Custom Table Style */
-.m3-table {
+.m3-table {{
     width: 100%;
     border-collapse: collapse;
     margin: 16px 0;
@@ -371,36 +459,70 @@ div[role="radiogroup"] {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
+}}
 
-.m3-table th {
-    background-color: #2C2014;
+.m3-table th {{
+    background-color: var(--bg-card-tonal);
     color: #FFA000;
     text-align: left;
     padding: 14px 16px;
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
-}
+}}
 
-.m3-table td {
+.m3-table td {{
     padding: 12px 16px;
-    border-bottom: 1px solid rgba(255, 179, 0, 0.06);
-    color: #EFEBE9;
-    background-color: #1C1612;
-}
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    background-color: var(--bg-card);
+}}
 
-.m3-table tr:last-child td {
+.m3-table tr:last-child td {{
     border-bottom: none;
-}
+}}
 
-.m3-table tr:hover td {
-    background-color: #241C15;
-}
+.m3-table tr:hover td {{
+    background-color: {t['bg_input']};
+}}
 
-[data-testid="stSidebar"] {
-    background-color: #120E0B !important;
-    border-right: 1px solid rgba(255, 179, 0, 0.08) !important;
-}
+[data-testid="stSidebar"] {{
+    background-color: var(--bg-sidebar) !important;
+    border-right: 1px solid var(--border-color) !important;
+}}
+
+/* Segmented Control styling */
+div[data-testid="stSegmentedControl"] {{
+    background-color: {t['bg_tablist']} !important;
+    border-radius: 20px !important;
+    padding: 4px !important;
+    border: 1px solid var(--border-color) !important;
+    gap: 4px !important;
+    width: 100% !important;
+}}
+
+div[data-testid="stSegmentedControl"] button {{
+    flex: 1 !important;
+    border: none !important;
+    border-radius: 16px !important;
+    padding: 8px 12px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.85em !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+    background-color: transparent !important;
+    transition: all 0.2s ease !important;
+}}
+
+div[data-testid="stSegmentedControl"] button:hover {{
+    color: {t['text_tab_hover']} !important;
+    background-color: {t['bg_tab_hover']} !important;
+}}
+
+div[data-testid="stSegmentedControl"] button[aria-checked="true"] {{
+    background-color: {t['bg_tab_active']} !important;
+    color: {t['text_tab_active']} !important;
+    font-weight: 700 !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -409,7 +531,8 @@ def get_base64_image(image_path):
     if os.path.exists(image_path):
         with open(image_path, "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read()).decode()
-            return f"data:image/jpeg;base64,{encoded_string}"
+            mime_type = "image/png" if image_path.endswith(".png") else "image/jpeg"
+            return f"data:{mime_type};base64,{encoded_string}"
     return ""
 
 def hex_to_rgb(hex_str):
@@ -424,8 +547,8 @@ def m3_metric_card(label, value, icon, color="#FFA000", bg_opacity=0.12):
             <span class="material-symbols-outlined" style="color: {color}; font-size: 22px;">{icon}</span>
         </div>
         <div style="overflow: hidden; text-align: left;">
-            <div style="font-size: 0.8em; color: #A69B95; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{label}</div>
-            <div style="font-size: 1.5em; font-weight: 700; color: #EFEBE9; margin-top: 2px; line-height: 1.1;">{value}</div>
+            <div style="font-size: 0.8em; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{label}</div>
+            <div style="font-size: 1.5em; font-weight: 700; color: var(--text-primary); margin-top: 2px; line-height: 1.1;">{value}</div>
         </div>
     </div>
     """
@@ -440,7 +563,7 @@ def make_html_coef_table(coef_df):
         if p_val < 0.05:
             sig_badge = '<span style="background-color: rgba(0, 200, 83, 0.12); color: #00E676; padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.85em; display: inline-block;">★ Significant</span>'
         else:
-            sig_badge = '<span style="background-color: rgba(166, 155, 149, 0.12); color: #A69B95; padding: 4px 10px; border-radius: 20px; font-weight: 500; font-size: 0.85em; display: inline-block;">Not Significant</span>'
+            sig_badge = '<span style="background-color: rgba(166, 155, 149, 0.12); color: var(--text-muted); padding: 4px 10px; border-radius: 20px; font-weight: 500; font-size: 0.85em; display: inline-block;">Not Significant</span>'
         
         feat_name = idx
         friendly_names = {
@@ -460,9 +583,9 @@ def make_html_coef_table(coef_df):
         <tr>
             <td>{name_display}</td>
             <td style="font-family: monospace; font-weight: 600;">{row['Coefficient (β)']:.4f}</td>
-            <td style="font-family: monospace; color: #A69B95;">{row['Standard Error']:.4f}</td>
-            <td style="font-family: monospace; color: #A69B95;">{row['t-Statistic']:.2f}</td>
-            <td style="font-family: monospace; font-weight: 600; color: {'#00E676' if p_val < 0.05 else '#EFEBE9'};">{p_val:.4f}</td>
+            <td style="font-family: monospace; color: var(--text-muted);">{row['Standard Error']:.4f}</td>
+            <td style="font-family: monospace; color: var(--text-muted);">{row['t-Statistic']:.2f}</td>
+            <td style="font-family: monospace; font-weight: 600; color: {'#00E676' if p_val < 0.05 else 'var(--text-primary)'};">{p_val:.4f}</td>
             <td>{sig_badge}</td>
         </tr>
         """
@@ -471,9 +594,10 @@ def make_html_coef_table(coef_df):
 
 # Matplotlib high-fidelity charting helpers
 def plot_correlation_heatmap(df):
+    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
-    fig.patch.set_facecolor('#120E0B')
-    ax.set_facecolor('#1E1712')
+    fig.patch.set_facecolor(t["chart_bg"])
+    ax.set_facecolor(t["chart_axes_bg"])
     
     numeric_df = df.select_dtypes(include=[np.number])
     corr_cols = ['population', 'payment_ratio', 'semester_indicator', 'benefits_claimed', 'officer_count', 'events_held', 'paid_memberships']
@@ -481,7 +605,7 @@ def plot_correlation_heatmap(df):
     corr = numeric_df[corr_cols].corr()
     
     from matplotlib.colors import LinearSegmentedColormap
-    colors = ["#2C1F15", "#8D3B0D", "#E65100", "#FFB300", "#FFF8E1"]
+    colors = t["heatmap_colors"]
     custom_cmap = LinearSegmentedColormap.from_list("ceitsc_cmap", colors)
     
     sns.heatmap(
@@ -494,21 +618,22 @@ def plot_correlation_heatmap(df):
         annot_kws={"size": 9, "weight": "bold"}
     )
     
-    ax.tick_params(colors='#A69B95', labelsize=8.5)
-    ticks_x = [t.get_text().replace('_', ' ').title() for t in ax.get_xticklabels()]
-    ticks_y = [t.get_text().replace('_', ' ').title() for t in ax.get_yticklabels()]
+    ax.tick_params(colors=t["chart_label"], labelsize=8.5)
+    ticks_x = [tick.get_text().replace('_', ' ').title() for tick in ax.get_xticklabels()]
+    ticks_y = [tick.get_text().replace('_', ' ').title() for tick in ax.get_yticklabels()]
     ax.set_xticklabels(ticks_x, rotation=45, ha='right')
     ax.set_yticklabels(ticks_y, rotation=0)
     
-    ax.title.set_color('#EFEBE9')
+    ax.title.set_color(t["chart_text"])
     plt.title("Correlation Matrix of Numeric Features", fontsize=11, fontweight='600', pad=12)
     plt.tight_layout()
     return fig
 
 def plot_scatter_population_memberships(df):
+    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
-    fig.patch.set_facecolor('#120E0B')
-    ax.set_facecolor('#1E1712')
+    fig.patch.set_facecolor(t["chart_bg"])
+    ax.set_facecolor(t["chart_axes_bg"])
     
     programs = df['program'].unique()
     color_map = {
@@ -528,7 +653,7 @@ def plot_scatter_population_memberships(df):
             color=color_map.get(prog, '#FFA000'), 
             label=prog, 
             s=65, 
-            edgecolors='#120E0B', 
+            edgecolors=t["chart_bg"], 
             linewidths=0.8,
             alpha=0.85
         )
@@ -536,35 +661,36 @@ def plot_scatter_population_memberships(df):
     x_line = np.linspace(df['population'].min(), df['population'].max(), 100)
     coef = np.polyfit(df['population'], df['paid_memberships'], 1)
     poly1d_fn = np.poly1d(coef)
-    ax.plot(x_line, poly1d_fn(x_line), color='#FFF8E1', linestyle='--', linewidth=1.5, alpha=0.6, label='Trendline')
+    ax.plot(x_line, poly1d_fn(x_line), color=t["text_glow"], linestyle='--', linewidth=1.5, alpha=0.6, label='Trendline')
     
-    ax.tick_params(colors='#A69B95', labelsize=8.5)
-    ax.xaxis.label.set_color('#A69B95')
-    ax.yaxis.label.set_color('#A69B95')
-    ax.title.set_color('#EFEBE9')
+    ax.tick_params(colors=t["chart_label"], labelsize=8.5)
+    ax.xaxis.label.set_color(t["chart_label"])
+    ax.yaxis.label.set_color(t["chart_label"])
+    ax.title.set_color(t["chart_text"])
     
     ax.set_xlabel('Total Program Population', fontsize=9.5)
     ax.set_ylabel('Paid Memberships', fontsize=9.5)
     ax.set_title('Program Population vs. Paid Memberships', fontsize=11, fontweight='600')
     
     for spine in ax.spines.values():
-        spine.set_color('#3A291A')
+        spine.set_color(t["chart_spine"])
         
     ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':')
-    ax.legend(facecolor='#1E1712', edgecolor='#3A291A', labelcolor='#EFEBE9', fontsize=8.5)
+    ax.legend(facecolor=t["chart_legend_bg"], edgecolor=t["chart_legend_border"], labelcolor=t["chart_text"], fontsize=8.5)
     plt.tight_layout()
     return fig
 
 def plot_avg_memberships_program(df):
+    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
-    fig.patch.set_facecolor('#120E0B')
-    ax.set_facecolor('#1E1712')
+    fig.patch.set_facecolor(t["chart_bg"])
+    ax.set_facecolor(t["chart_axes_bg"])
     
     avg_paid = df.groupby('program')['paid_memberships'].mean().reset_index()
     avg_paid = avg_paid.sort_values(by='paid_memberships', ascending=False)
     
     bar_colors = [
-        '#FF5722', '#FF8F00', '#FFB300', '#FFC107', '#FFE082', '#FFF8E1'
+        '#FF5722', '#FF8F00', '#FFB300', '#FFC107', '#FFE082', '#FFF8E1' if st.session_state.theme == 'dark' else '#2C1F15'
     ][:len(avg_paid)]
     
     bars = ax.bar(avg_paid['program'], avg_paid['paid_memberships'], color=bar_colors, edgecolor='none', width=0.55, alpha=0.9)
@@ -575,26 +701,27 @@ def plot_avg_memberships_program(df):
                     xy=(bar.get_x() + bar.get_width() / 2, height),
                     xytext=(0, 3),  
                     textcoords="offset points",
-                    ha='center', va='bottom', fontsize=8, color='#EFEBE9', weight='bold')
+                    ha='center', va='bottom', fontsize=8, color=t["chart_text"], weight='bold')
                     
-    ax.tick_params(colors='#A69B95', labelsize=8.5)
-    ax.yaxis.label.set_color('#A69B95')
-    ax.title.set_color('#EFEBE9')
+    ax.tick_params(colors=t["chart_label"], labelsize=8.5)
+    ax.yaxis.label.set_color(t["chart_label"])
+    ax.title.set_color(t["chart_text"])
     
     ax.set_ylabel('Average Paid Memberships', fontsize=9.5)
     ax.set_title('Average Paid Memberships by Degree Program', fontsize=11, fontweight='600')
     
     for spine in ax.spines.values():
-        spine.set_color('#3A291A')
+        spine.set_color(t["chart_spine"])
         
     ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':', axis='y')
     plt.tight_layout()
     return fig
 
 def plot_membership_trend(df):
+    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
-    fig.patch.set_facecolor('#120E0B')
-    ax.set_facecolor('#1E1712')
+    fig.patch.set_facecolor(t["chart_bg"])
+    ax.set_facecolor(t["chart_axes_bg"])
     
     df_copy = df.copy()
     df_copy['period'] = df_copy['academic_year'] + " \n" + df_copy['semester']
@@ -625,44 +752,45 @@ def plot_membership_trend(df):
                     xy=(x, y),
                     xytext=(0, 6),
                     textcoords="offset points",
-                    ha='center', va='bottom', fontsize=8, color='#EFEBE9', weight='bold')
+                    ha='center', va='bottom', fontsize=8, color=t["chart_text"], weight='bold')
                     
-    ax.tick_params(colors='#A69B95', labelsize=8)
-    ax.yaxis.label.set_color('#A69B95')
-    ax.title.set_color('#EFEBE9')
+    ax.tick_params(colors=t["chart_label"], labelsize=8)
+    ax.yaxis.label.set_color(t["chart_label"])
+    ax.title.set_color(t["chart_text"])
     
     ax.set_ylabel('Total Paid Memberships', fontsize=9.5)
     ax.set_title('Council Membership Trend Over Semesters', fontsize=11, fontweight='600')
     
     for spine in ax.spines.values():
-        spine.set_color('#3A291A')
+        spine.set_color(t["chart_spine"])
         
     ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':')
     plt.tight_layout()
     return fig
 
 def plot_residual_chart(y_test, y_pred):
+    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(5, 4.2), dpi=100)
-    fig.patch.set_facecolor('#120E0B')
-    ax.set_facecolor('#1E1712')
+    fig.patch.set_facecolor(t["chart_bg"])
+    ax.set_facecolor(t["chart_axes_bg"])
     
     ax.scatter(y_test, y_pred, color='#FFC107', edgecolors='#FF5722', s=55, alpha=0.85, label='Actual Data')
-    ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='#FFF8E1', linestyle='--', linewidth=2, label='Perfect Fit')
+    ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color=t["text_glow"], linestyle='--', linewidth=2, label='Perfect Fit')
     
-    ax.tick_params(colors='#A69B95', labelsize=9)
-    ax.xaxis.label.set_color('#A69B95')
-    ax.yaxis.label.set_color('#A69B95')
-    ax.title.set_color('#EFEBE9')
+    ax.tick_params(colors=t["chart_label"], labelsize=9)
+    ax.xaxis.label.set_color(t["chart_label"])
+    ax.yaxis.label.set_color(t["chart_label"])
+    ax.title.set_color(t["chart_text"])
     
     ax.set_xlabel('Actual Paid Memberships', fontsize=10, fontweight='500')
     ax.set_ylabel('Predicted Paid Memberships', fontsize=10, fontweight='500')
     ax.set_title('Model Residual Plot (Actual vs. Predicted)', fontsize=11, fontweight='600')
     
     for spine in ax.spines.values():
-        spine.set_color('#4A3622')
+        spine.set_color(t["chart_spine"])
         
     ax.grid(True, color='#FF8F00', alpha=0.06, linestyle=':')
-    ax.legend(facecolor='#1E1712', edgecolor='#3A291A', labelcolor='#EFEBE9', fontsize=9)
+    ax.legend(facecolor=t["chart_legend_bg"], edgecolor=t["chart_legend_border"], labelcolor=t["chart_text"], fontsize=9)
     plt.tight_layout()
     return fig
 
@@ -681,6 +809,18 @@ if os.path.exists("logo.jpg"):
     st.sidebar.image("logo.jpg", use_container_width=True)
 st.sidebar.markdown("<h2 class='gradient-text' style='font-family: Outfit; font-size: 1.55em; margin-bottom: 0px;'>CEIT-SC ML System</h2>", unsafe_allow_html=True)
 st.sidebar.caption("Cavite State University — Main Campus")
+
+# Dynamic Theme Selector Control
+selected_theme = st.sidebar.segmented_control(
+    "theme_toggle", options=["🌙 Dark", "☀️ Light"],
+    default="🌙 Dark" if st.session_state.theme == "dark" else "☀️ Light",
+    label_visibility="collapsed", key="theme_selector_widget"
+)
+new_theme = "dark" if selected_theme == "🌙 Dark" else "light"
+if new_theme != st.session_state.theme:
+    st.session_state.theme = new_theme
+    st.rerun()
+
 
 if model_exists:
     st.sidebar.markdown("""
@@ -727,7 +867,7 @@ if not model_exists:
         <img src="{logo_base64}" style="width: 80px; height: 80px; border-radius: 20px; border: 2px solid #FFB300;" />
         <div>
             <h1 class="gradient-text" style="margin: 0; font-size: 2.2em; font-family: 'Outfit';">CEIT-SC Membership Prediction System</h1>
-            <p style="margin: 6px 0 0 0; color: #A69B95; font-size: 1.05em; font-weight: 500;">
+            <p style="margin: 6px 0 0 0; color: var(--text-muted); font-size: 1.05em; font-weight: 500;">
                 Cavite State University College of Engineering and Information Technology Student Council
             </p>
         </div>
@@ -740,7 +880,7 @@ if not model_exists:
             <span class="material-symbols-outlined" style="color: #FFA000; font-size: 28px;">auto_awesome</span>
             System Onboarding Wizard
         </h3>
-        <p style="color: #EFEBE9; line-height: 1.6; margin-bottom: 0;">
+        <p style="color: var(--text-primary); line-height: 1.6; margin-bottom: 0;">
             Welcome! To initialize the predictive dashboard, the system needs to process historical enrollment and collection logs. 
             Please upload a raw CSV dataset containing your council history. The backend pipeline will clean the data, calculate relative features, and fit the regression equations.
         </p>
@@ -836,7 +976,7 @@ if not model_exists:
                     <span class="material-symbols-outlined" style="color: #00C853;">check_circle</span>
                     <div>
                         <strong style="color: #00C853; font-family: 'Outfit';">Model Initialized Successfully</strong><br>
-                        <span style="font-size: 0.95em; color: #EFEBE9;">The Multiple Linear Regression model has been trained on {len(clean_df)} historical records.</span>
+                        <span style="font-size: 0.95em; color: var(--text-primary);">The Multiple Linear Regression model has been trained on {len(clean_df)} historical records.</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -908,7 +1048,7 @@ else:
         <img src="{logo_base64}" style="width: 80px; height: 80px; border-radius: 20px; border: 2px solid #FFB300;" />
         <div>
             <h1 class="gradient-text" style="margin: 0; font-size: 2.2em; font-family: 'Outfit';">CEIT-SC Membership Analytics Portal</h1>
-            <p style="margin: 4px 0 0 0; color: #A69B95; font-size: 1.02em; font-weight: 500;">
+            <p style="margin: 4px 0 0 0; color: var(--text-muted); font-size: 1.02em; font-weight: 500;">
                 Cavite State University College of Engineering and Information Technology Student Council
             </p>
         </div>
@@ -937,11 +1077,11 @@ else:
                     <span class="material-symbols-outlined">school</span>
                     Project Overview
                 </h3>
-                <p style="line-height: 1.6; color: #EFEBE9;">
+                <p style="line-height: 1.6; color: var(--text-primary);">
                     The <strong>CEIT-SC Membership Prediction System</strong> is a decision support application engineered for the 
                     <strong>College of Engineering and Information Technology Student Council (CEIT-SC)</strong> at Cavite State University (CvSU) — Main Campus.
                 </p>
-                <p style="line-height: 1.6; color: #EFEBE9;">
+                <p style="line-height: 1.6; color: var(--text-primary);">
                     By leveraging a Multiple Linear Regression (MLR) framework, the tool analyzes historical collection figures, student program sizes, 
                     semester variables, and officer profiles to forecast future membership fee collections. This enables the student council 
                     to plan organization budgets, event resources, and student benefits with data-backed accuracy.
@@ -974,8 +1114,8 @@ else:
             
             st.markdown(f"""
             <div class="m3-card-tonal">
-                <h4 style="margin-top: 0; color: #FFF8E1; font-family: 'Outfit';">CPEN70 Course Project Group</h4>
-                <p style="margin-bottom: 0; color: #A69B95; font-size: 0.95em;">
+                <h4 style="margin-top: 0; color: var(--text-glow); font-family: 'Outfit';">CPEN70 Course Project Group</h4>
+                <p style="margin-bottom: 0; color: var(--text-muted); font-size: 0.95em;">
                     Aguilar · Bergado · Bituin · Guarin · Reyes · Sarmiento<br>
                     <strong>Cavite State University (CvSU) — Main Campus</strong>
                 </p>
@@ -992,15 +1132,15 @@ else:
                 <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="background-color: rgba(41, 121, 255, 0.12); color: #2979FF; font-weight: 700; width: 85px; padding: 6px; border-radius: 12px; text-align: center; font-size: 0.85em;">INPUT</div>
-                        <div style="font-size: 0.9em; color: #EFEBE9;">Program population (X₁), online payment ratio (X₂), semester index (X₃), benefits claimed (X₄), officer count (X₅), events held (X₆)</div>
+                        <div style="font-size: 0.9em; color: var(--text-primary);">Program population (X₁), online payment ratio (X₂), semester index (X₃), benefits claimed (X₄), officer count (X₅), events held (X₆)</div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="background-color: rgba(255, 143, 0, 0.12); color: #FFA000; font-weight: 700; width: 85px; padding: 6px; border-radius: 12px; text-align: center; font-size: 0.85em;">PROCESS</div>
-                        <div style="font-size: 0.9em; color: #EFEBE9;">Data Cleaning & Ratio Calculation → Scikit-learn LinearRegression & Statsmodels OLS Fit</div>
+                        <div style="font-size: 0.9em; color: var(--text-primary);">Data Cleaning & Ratio Calculation → Scikit-learn LinearRegression & Statsmodels OLS Fit</div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="background-color: rgba(0, 200, 83, 0.12); color: #00E676; font-weight: 700; width: 85px; padding: 6px; border-radius: 12px; text-align: center; font-size: 0.85em;">OUTPUT</div>
-                        <div style="font-size: 0.9em; color: #EFEBE9;">Predicted student memberships (Y), OLS statistical coefficients, strategy advisory insights</div>
+                        <div style="font-size: 0.9em; color: var(--text-primary);">Predicted student memberships (Y), OLS statistical coefficients, strategy advisory insights</div>
                     </div>
                 </div>
             </div>
@@ -1008,7 +1148,7 @@ else:
             
             st.markdown("""
             <div class="m3-card" style="border-left: 6px solid #00C853;">
-                <h4 style="margin-top: 0; color: #EFEBE9; font-family: 'Outfit';">Active Model Performance</h4>
+                <h4 style="margin-top: 0; color: var(--text-primary); font-family: 'Outfit';">Active Model Performance</h4>
                 <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
             """, unsafe_allow_html=True)
             st.markdown(m3_metric_card("Model Accuracy (R²)", f"{training_results['r2']:.4f}", "verified", "#00C853", 0.08), unsafe_allow_html=True)
@@ -1025,7 +1165,7 @@ else:
                 <span class="material-symbols-outlined">database</span>
                 Dataset Explorer & Filters
             </h3>
-            <p style="color: #A69B95; margin-bottom: 16px;">Filter and inspect historical records of student population, modalities, and membership collections.</p>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">Filter and inspect historical records of student population, modalities, and membership collections.</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -1078,7 +1218,7 @@ else:
                 <span class="material-symbols-outlined">insights</span>
                 Exploratory Data Analysis
             </h3>
-            <p style="color: #A69B95; margin-bottom: 0;">Explore historical trends, correlations, and relationships within the student council membership records.</p>
+            <p style="color: var(--text-muted); margin-bottom: 0;">Explore historical trends, correlations, and relationships within the student council membership records.</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -1116,7 +1256,7 @@ else:
                 <span class="material-symbols-outlined">query_stats</span>
                 Regression Equation & Statistical Significance
             </h3>
-            <p style="color: #A69B95; margin-bottom: 0;">Evaluate the Multiple Linear Regression (MLR) model parameters, residuals, and variable significance coefficients.</p>
+            <p style="color: var(--text-muted); margin-bottom: 0;">Evaluate the Multiple Linear Regression (MLR) model parameters, residuals, and variable significance coefficients.</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -1127,7 +1267,7 @@ else:
                 <span class="material-symbols-outlined">calculate</span>
                 Fitted Regression Model Equation (Y)
             </h4>
-            <div style="font-size: 1.15em; font-family: monospace; color: #EFEBE9; padding: 12px; background-color: #241A12; border-radius: 12px; border: 1px solid rgba(255, 143, 0, 0.1); overflow-x: auto; white-space: nowrap; margin-top: 12px;">
+            <div style="font-size: 1.15em; font-family: monospace; color: var(--text-primary); padding: 12px; background-color: var(--bg-card-tonal); border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; white-space: nowrap; margin-top: 12px;">
                 Y_pred = {:.2f} 
                 + ({:.4f} × Pop) 
                 + ({:.2f} × PayRatio) 
@@ -1220,25 +1360,25 @@ else:
             avg_events = int(df['events_held'].mean())
             
             st.markdown("""
-            <div style="background-color: rgba(255,255,255,0.02); padding: 18px; border-radius: 20px; border: 1px solid rgba(255,143,0,0.05); margin-bottom: 20px;">
-                <h5 style="margin-top: 0; margin-bottom: 12px; color: #FFF8E1; font-family: 'Outfit';">👥 1. Program Demographics</h5>
+            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 20px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit';">👥 1. Program Demographics</h5>
             """, unsafe_allow_html=True)
             population = st.slider("Enrolled Program Population ($X_1$):", min_value=10, max_value=1200, value=avg_pop, step=10)
             st.markdown("</div>", unsafe_allow_html=True)
             
             st.markdown("""
-            <div style="background-color: rgba(255,255,255,0.02); padding: 18px; border-radius: 20px; border: 1px solid rgba(255,143,0,0.05); margin-bottom: 20px;">
-                <h5 style="margin-top: 0; margin-bottom: 12px; color: #FFF8E1; font-family: 'Outfit';">💳 2. Collection Modality & Calendar</h5>
+            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 20px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit';">💳 2. Collection Modality & Calendar</h5>
             """, unsafe_allow_html=True)
             payment_ratio = st.slider("Online Payment Ratio ($X_2$):", min_value=0.0, max_value=1.0, value=avg_ratio, step=0.05, help="Proportion of payments collected via GCash/PayMaya versus Cash.")
             semester = st.radio("Academic Term ($X_3$):", options=["1st Semester (High Activity)", "2nd Semester (Low Activity)"], index=0, horizontal=True)
             st.markdown("</div>", unsafe_allow_html=True)
             
             st.markdown("""
-            <div style="background-color: rgba(255,255,255,0.02); padding: 18px; border-radius: 20px; border: 1px solid rgba(255,143,0,0.05);">
-                <h5 style="margin-top: 0; margin-bottom: 12px; color: #FFF8E1; font-family: 'Outfit';">🎗️ 3. Engagement & Outreach Features</h5>
+            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 20px; border: 1px solid var(--border-color);">
+                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit';">🎗️ 3. Engagement & Outreach Features</h5>
             """, unsafe_allow_html=True)
-            benefits_claimed = st.slider("Benefits Claimed ($X_4$):", min_value=0, max_value=int(population), value=min(avg_benefits, int(population*0.6)), step=5)
+            benefits_claimed = st.slider("Benefits Claimed ($X_4$):", min_value=0, max_value=1200, value=min(avg_benefits, 720), step=5)
             
             col_sub1, col_sub2 = st.columns(2)
             with col_sub1:
@@ -1257,11 +1397,13 @@ else:
             
             semester_indicator = 1 if "1st" in semester else 0
             
+            benefits_claimed_model = min(benefits_claimed, population)
+            
             input_data = pd.DataFrame([{
                 'population': population,
                 'payment_ratio': payment_ratio,
                 'semester_indicator': semester_indicator,
-                'benefits_claimed': benefits_claimed,
+                'benefits_claimed': benefits_claimed_model,
                 'officer_count': officer_count,
                 'events_held': events_held
             }])
@@ -1283,15 +1425,26 @@ else:
             st.markdown(f"""
             <div class="m3-card" style="border-left: 8px solid {glow_color}; text-align: center; padding: 36px 20px;">
                 <span class="material-symbols-outlined" style="color: {glow_color}; font-size: 36px;">insights</span>
-                <div style="font-size: 1.1em; color: #A69B95; margin-top: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Predicted Paid Memberships (Y)</div>
+                <div style="font-size: 1.1em; color: var(--text-muted); margin-top: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Predicted Paid Memberships (Y)</div>
                 <h1 style="font-size: 4.8em; font-weight: 800; margin: 12px 0; font-family: 'Outfit', sans-serif;" class="gradient-text">{int(np.round(pred_capped))}</h1>
-                <div style="font-size: 1.2em; font-weight: 700; color: #FFF8E1; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <div style="font-size: 1.2em; font-weight: 700; color: var(--text-glow); display: flex; align-items: center; justify-content: center; gap: 8px;">
                     <span>{collection_rate:.1f}% Collection Rate</span>
                     <span style="background-color: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 12px; font-size: 0.75em; color: {glow_color}; border: 1px solid {glow_color}33;">{status_text}</span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
             
+            if benefits_claimed > population:
+                st.markdown(f"""
+                <div class="m3-alert-warning">
+                    <span class="material-symbols-outlined" style="color: #FF9100; margin-top: 2px;">warning</span>
+                    <div>
+                        <strong style="color: #FF9100; font-family: 'Outfit';">Benefits Exceed Population</strong><br>
+                        <span style="font-size: 0.9em; color: var(--text-primary);">Benefits claimed ({benefits_claimed}) cannot exceed total enrolled population ({population}). Capping benefits to {population} for the simulation model.</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
             if pred_val != pred_capped:
                 if pred_val < 0:
                     st.markdown(f"""
@@ -1299,7 +1452,7 @@ else:
                         <span class="material-symbols-outlined" style="color: #FF3D00; margin-top: 2px;">warning</span>
                         <div>
                             <strong style="color: #FF3D00; font-family: 'Outfit';">Negative Output Capped</strong><br>
-                            <span style="font-size: 0.9em; color: #EFEBE9;">The raw regression model predicted a negative count ({pred_val:.1f}). This usually indicates highly unfavorable conditions. Capped to 0.</span>
+                            <span style="font-size: 0.9em; color: var(--text-primary);">The raw regression model predicted a negative count ({pred_val:.1f}). This usually indicates highly unfavorable conditions. Capped to 0.</span>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -1309,18 +1462,18 @@ else:
                         <span class="material-symbols-outlined" style="color: #FF3D00; margin-top: 2px;">warning</span>
                         <div>
                             <strong style="color: #FF3D00; font-family: 'Outfit';">Exceeded Enrollment Limit</strong><br>
-                            <span style="font-size: 0.9em; color: #EFEBE9;">The raw model predicted {pred_val:.1f} payments, exceeding total enrollment ({population}). Capped to population limit.</span>
+                            <span style="font-size: 0.9em; color: var(--text-primary);">The raw model predicted {pred_val:.1f} payments, exceeding total enrollment ({population}). Capped to population limit.</span>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
                     
-            if benefits_claimed > pred_capped:
+            if benefits_claimed_model > pred_capped:
                 st.markdown(f"""
                 <div class="m3-alert-warning">
                     <span class="material-symbols-outlined" style="color: #FF3D00; margin-top: 2px;">error</span>
                     <div>
                         <strong style="color: #FF3D00; font-family: 'Outfit';">Consistency Conflict</strong><br>
-                        <span style="font-size: 0.9em; color: #EFEBE9;">Benefits claimed ({benefits_claimed}) exceed predicted paying members ({int(np.round(pred_capped))}). Paid membership is typically required to claim council benefits.</span>
+                        <span style="font-size: 0.9em; color: var(--text-primary);">Benefits claimed ({benefits_claimed_model}) exceed predicted paying members ({int(np.round(pred_capped))}). Paid membership is typically required to claim council benefits.</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1331,7 +1484,7 @@ else:
                     <span class="material-symbols-outlined">lightbulb</span>
                     Council Strategy Advisor
                 </h4>
-                <div style="font-size: 0.95em; line-height: 1.55; color: #EFEBE9;">
+                <div style="font-size: 0.95em; line-height: 1.55; color: var(--text-primary);">
                     <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
                         <li><strong>Modality:</strong> Increasing online payments by 10% improves forecast collections by average of <strong>{training_results['coefficients'][1] * 0.1:.1f}</strong> students.</li>
                         <li><strong>Officer Staffing:</strong> Adding 1 active program officer yields an average increase of <strong>{training_results['coefficients'][4]:.1f}</strong> paid memberships.</li>
