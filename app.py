@@ -28,7 +28,7 @@ plt.rcParams.update({
     "axes.labelcolor": "#A69B95",
     "xtick.color": "#A69B95",
     "ytick.color": "#A69B95",
-    "grid.color": "rgba(255, 143, 0, 0.05)",
+    "grid.color": "#291E11",
     "font.family": "sans-serif"
 })
 
@@ -548,10 +548,10 @@ def plot_scatter_population_memberships(df):
     ax.set_title('Program Population vs. Paid Memberships', fontsize=11, fontweight='600')
     
     for spine in ax.spines.values():
-        spine.set_color('rgba(255, 143, 0, 0.12)')
+        spine.set_color('#3A291A')
         
-    ax.grid(True, color='rgba(255, 143, 0, 0.05)', linestyle=':')
-    ax.legend(facecolor='#1E1712', edgecolor='rgba(255, 143, 0, 0.1)', labelcolor='#EFEBE9', fontsize=8.5)
+    ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':')
+    ax.legend(facecolor='#1E1712', edgecolor='#3A291A', labelcolor='#EFEBE9', fontsize=8.5)
     plt.tight_layout()
     return fig
 
@@ -585,9 +585,9 @@ def plot_avg_memberships_program(df):
     ax.set_title('Average Paid Memberships by Degree Program', fontsize=11, fontweight='600')
     
     for spine in ax.spines.values():
-        spine.set_color('rgba(255, 143, 0, 0.12)')
+        spine.set_color('#3A291A')
         
-    ax.grid(True, color='rgba(255, 143, 0, 0.05)', linestyle=':', axis='y')
+    ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':', axis='y')
     plt.tight_layout()
     return fig
 
@@ -635,9 +635,9 @@ def plot_membership_trend(df):
     ax.set_title('Council Membership Trend Over Semesters', fontsize=11, fontweight='600')
     
     for spine in ax.spines.values():
-        spine.set_color('rgba(255, 143, 0, 0.12)')
+        spine.set_color('#3A291A')
         
-    ax.grid(True, color='rgba(255, 143, 0, 0.05)', linestyle=':')
+    ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':')
     plt.tight_layout()
     return fig
 
@@ -659,10 +659,10 @@ def plot_residual_chart(y_test, y_pred):
     ax.set_title('Model Residual Plot (Actual vs. Predicted)', fontsize=11, fontweight='600')
     
     for spine in ax.spines.values():
-        spine.set_color('rgba(255, 143, 0, 0.15)')
+        spine.set_color('#4A3622')
         
-    ax.grid(True, color='rgba(255, 143, 0, 0.06)', linestyle=':')
-    ax.legend(facecolor='#1E1712', edgecolor='rgba(255, 143, 0, 0.1)', labelcolor='#EFEBE9', fontsize=9)
+    ax.grid(True, color='#FF8F00', alpha=0.06, linestyle=':')
+    ax.legend(facecolor='#1E1712', edgecolor='#3A291A', labelcolor='#EFEBE9', fontsize=9)
     plt.tight_layout()
     return fig
 
