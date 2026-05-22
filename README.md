@@ -52,22 +52,23 @@ cd ceitsc-membership-prediction
 
 ### 2. Set up the Python virtual environment
 
-Create and activate a virtual environment to isolate project packages:
+Create a virtual environment and install dependencies using `uv`:
 
 ```bash
-# Windows
-python -m venv .venv
-.venv\Scripts\activate
+# Create a virtual environment using uv
+uv venv
 
-# macOS / Linux
-python -m venv .venv
+# Activate the virtual environment
+# Windows:
+.venv\Scripts\activate
+# macOS / Linux:
 source .venv/bin/activate
 ```
 
 ### 3. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 ## Usage
