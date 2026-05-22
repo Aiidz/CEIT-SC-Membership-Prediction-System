@@ -750,7 +750,7 @@ if not model_exists:
     uploaded_file = st.file_uploader("Select raw enrollment and collection CSV file to begin onboarding:", type=["csv"])
     
     with st.expander("📋 Review Expected CSV Dataset Structure", expanded=False):
-        st.markdown("""
+        st.html("""
         <div style="font-size: 0.9em;">
         Your CSV file should contain the following headers:
         <table class="m3-table" style="margin-top: 8px;">
@@ -815,7 +815,7 @@ if not model_exists:
             </tbody>
         </table>
         </div>
-        """, unsafe_allow_html=True)
+        """)
         
     if uploaded_file is not None:
         try:
@@ -1161,14 +1161,14 @@ else:
         col_stats, col_residual = st.columns([13, 10])
         
         with col_stats:
-            st.markdown("""
+            st.html("""
             <div style="margin-top: 16px; margin-bottom: 8px;">
                 <h4 style="margin: 0; font-family: 'Outfit'; display: flex; align-items: center; gap: 6px;">
                     <span class="material-symbols-outlined" style="color: #FFA000;">table_chart</span>
                     Coefficients & Statistical Significance (RQ2)
                 </h4>
             </div>
-            """, unsafe_allow_html=True)
+            """)
             
             coef_df = pd.DataFrame({
                 "Coefficient (β)": ols_model.params,
@@ -1178,17 +1178,17 @@ else:
             })
             
             html_table = make_html_coef_table(coef_df)
-            st.markdown(html_table, unsafe_allow_html=True)
+            st.html(html_table)
             
         with col_residual:
-            st.markdown("""
+            st.html("""
             <div style="margin-top: 16px; margin-bottom: 8px;">
                 <h4 style="margin: 0; font-family: 'Outfit'; display: flex; align-items: center; gap: 6px;">
                     <span class="material-symbols-outlined" style="color: #FFA000;">scatter_plot</span>
                     Residual Analysis
                 </h4>
             </div>
-            """, unsafe_allow_html=True)
+            """)
             
             from sklearn.model_selection import train_test_split
             X = df[training_results['features']]
