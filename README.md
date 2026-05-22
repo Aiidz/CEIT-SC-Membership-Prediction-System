@@ -1,22 +1,25 @@
 # CEIT-SC Membership Prediction System
 
-A web-based data mining and visualization system that uses **Multiple Linear Regression (MLR)** to predict the number of paid CEIT Student Council (CEIT-SC) memberships per degree program per semester, based on historical enrollment and collection data. Built with **Python**, **scikit-learn**, **statsmodels**, and **Streamlit**.
+A **Machine Learning** dashboard that uses **Multiple Linear Regression (MLR)** to predict CEIT Student Council membership fee collections per program per semester. Built with **Python**, **scikit-learn**, **statsmodels**, and **Streamlit**.
 
-This system allows student council officers to forecast student membership payments, optimize budget allocation, and make data-driven decisions before the start of each semester.
+The system trains a regression model on 6 input features (population, payment ratio, semester, benefits claimed, officer count, events held) to forecast paid memberships ($Y$). Student council officers can adjust inputs in the Predictor playground and see real-time predictions backed by statistical significance testing.
 
 ## Features
 
-* **Data-driven Forecasting:** Uses Multiple Linear Regression to estimate paid membership counts based on population, payment methods, events, and officer counts.
-* **Statistical Insights (statsmodels):** Generates p-values, confidence intervals, and significance metrics to identify which factors (e.g., benefits claimed, events, officers) truly drive membership payments.
-* **Interactive EDA Dashboard:** Dynamic visualizations of trends across semesters, correlations between variables (correlation matrix heatmap), and scatter plots of population vs. memberships.
-* **Data Explorer:** Tabular explorer for the raw and cleaned datasets, with support for filtering by degree program or semester and exporting/downloading data.
-* **Predictive Playground:** Interactive web form where users can adjust variables (e.g., input population, expected events, online payment ratio) to see prediction results instantly.
-* **Clean & Modular Structure:** Separated preprocessing, modeling, and dashboard components.
+* **ML Regression Model:** scikit-learn `LinearRegression` trained on historical enrollment and collection data.
+* **Statistical Analysis:** Statsmodels `OLS` produces p-values, coefficients, and significance metrics for each feature.
+* **Interactive EDA:** Correlation heatmaps, scatter plots, trend lines, and bar charts with Matplotlib.
+* **Data Explorer:** Filterable table view of raw and cleaned datasets with CSV export.
+* **Predictor Playground:** Adjust 6 input variables via sliders/radios and see instant prediction results.
+* **Dark Slate + Orange Theme:** Professional dark-mode UI with glassmorphism cards, hover animations, and Material Symbols Outlined icons.
 
 ## Project Structure
 
 ```
 ceitsc-membership-prediction/
+│
+├── .streamlit/
+│   └── config.toml             # Streamlit theme config (dark slate + orange)
 │
 ├── data/
 │   ├── ceitsc_raw.csv          # Raw enrollment and collection records (2021–2025)
@@ -96,13 +99,13 @@ App runs at `http://localhost:8501`.
 
 The interactive Streamlit application contains the following core views:
 
-| Page / Tab | Description | Key Components |
-|------------|-------------|----------------|
-| `🏠 Home` | Project overview, objectives, and metadata | Research questions, Cavite State University guidelines, target goals |
-| `📊 Data Explorer` | Interactive tabular data view | Data filters (program, semester), basic statistics, CSV downloader |
-| `📈 EDA Dashboard` | Exploratory data visualizations | Correlation heatmap, program comparisons, population vs. payment scatter |
-| `🤖 Model Results` | Evaluation metrics and OLS statistics | $R^2$, MAE, RMSE values, Coefficient tables, p-values |
-| `🔮 Predict` | Prediction playground | Interactive sliders/inputs, predicted count display, residual alerts |
+| Tab | Description | Key Components |
+|-----|-------------|----------------|
+| Overview | Project overview, objectives, and metadata | Research questions, system architecture (IPO), active model performance |
+| Data Explorer | Interactive tabular data view | Data filters (program, semester), basic statistics, CSV downloader |
+| EDA Dashboard | Exploratory data visualizations | Correlation heatmap, program comparisons, population vs. payment scatter, trend line |
+| Model Results | Evaluation metrics and OLS statistics | $R^2$, MAE, RMSE, coefficient table with p-values, residual plot, regression equation |
+| Predictor | Prediction playground | Interactive sliders/radios for 6 features, predicted membership count, strategy advisor |
 
 ## Model Variables
 
