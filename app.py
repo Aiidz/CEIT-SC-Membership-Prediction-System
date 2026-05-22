@@ -21,81 +21,42 @@ st.set_page_config(
 # Theme Configuration and Styling (Material 3 Dynamic Theme System)
 THEMES = {
     "dark": {
-        "bg_app": "#120E0B",
-        "bg_app_header": "rgba(18, 14, 11, 0.85)",
-        "bg_sidebar": "#120E0B",
-        "text_primary": "#EFEBE9",
-        "text_muted": "#A69B95",
-        "text_glow": "#FFF8E1",
-        "border_color": "rgba(255, 143, 0, 0.08)",
-        "border_color_hero": "rgba(255, 143, 0, 0.15)",
-        "border_color_input": "rgba(255, 143, 0, 0.15)",
-        "bg_card": "#1C1612",
-        "bg_hero": "linear-gradient(135deg, #1E1712 0%, #15100C 100%)",
-        "bg_card_tonal": "#2C2014",
-        "bg_input": "#241A12",
-        "bg_tablist": "#1C1612",
-        "bg_tab_hover": "rgba(255, 143, 0, 0.06)",
-        "bg_tab_active": "rgba(255, 143, 0, 0.16)",
-        "text_tab_active": "#FFA000",
-        "text_tab_hover": "#FFF8E1",
-        "bg_download": "#2C2014",
-        "text_download": "#FFA000",
-        "border_download": "rgba(255, 143, 0, 0.3)",
-        "chart_bg": "#120E0B",
-        "chart_axes_bg": "#1E1712",
-        "chart_text": "#EFEBE9",
-        "chart_label": "#A69B95",
-        "chart_grid": "#291E11",
-        "chart_spine": "#3A291A",
-        "chart_legend_bg": "#1E1712",
-        "chart_legend_border": "#3A291A",
-        "heatmap_colors": ["#2C1F15", "#8D3B0D", "#E65100", "#FFB300", "#FFF8E1"]
+        "bg_app": "#0F172A",
+        "bg_app_header": "rgba(15, 23, 42, 0.85)",
+        "bg_sidebar": "#0F172A",
+        "text_primary": "#F1F5F9",
+        "text_muted": "#94A3B8",
+        "text_glow": "#FED7AA",
+        "border_color": "#334155",
+        "border_color_hero": "#334155",
+        "border_color_input": "#334155",
+        "bg_card": "#1E293B",
+        "bg_hero": "linear-gradient(135deg, #1E293B 0%, #0F172A 100%)",
+        "bg_card_tonal": "#334155",
+        "bg_input": "#1E293B",
+        "bg_tablist": "#1E293B",
+        "bg_tab_hover": "rgba(249, 115, 22, 0.06)",
+        "bg_tab_active": "rgba(249, 115, 22, 0.16)",
+        "text_tab_active": "#F97316",
+        "text_tab_hover": "#FED7AA",
+        "bg_download": "#334155",
+        "text_download": "#F97316",
+        "border_download": "rgba(249, 115, 22, 0.3)",
+        "chart_bg": "#0F172A",
+        "chart_axes_bg": "#1E293B",
+        "chart_text": "#F1F5F9",
+        "chart_label": "#94A3B8",
+        "chart_grid": "#1E293B",
+        "chart_spine": "#334155",
+        "chart_legend_bg": "#1E293B",
+        "chart_legend_border": "#334155",
+        "heatmap_colors": ["#1E293B", "#7C2D12", "#EA580C", "#F97316", "#FED7AA"]
     },
-    "light": {
-        "bg_app": "#FDFBF9",
-        "bg_app_header": "rgba(253, 251, 249, 0.85)",
-        "bg_sidebar": "#F5EFEA",
-        "text_primary": "#2C1F15",
-        "text_muted": "#7C6E65",
-        "text_glow": "#5D1B00",
-        "border_color": "rgba(255, 87, 34, 0.12)",
-        "border_color_hero": "rgba(255, 87, 34, 0.2)",
-        "border_color_input": "rgba(255, 87, 34, 0.2)",
-        "bg_card": "#FFFDFB",
-        "bg_hero": "linear-gradient(135deg, #FFFDFB 0%, #F5EFEA 100%)",
-        "bg_card_tonal": "#EFE7E0",
-        "bg_input": "#FFFDFB",
-        "bg_tablist": "#F5EFEA",
-        "bg_tab_hover": "rgba(255, 87, 34, 0.06)",
-        "bg_tab_active": "rgba(255, 87, 34, 0.12)",
-        "text_tab_active": "#FF5722",
-        "text_tab_hover": "#5D1B00",
-        "bg_download": "#EFE7E0",
-        "text_download": "#FF5722",
-        "border_download": "rgba(255, 87, 34, 0.3)",
-        "chart_bg": "#FDFBF9",
-        "chart_axes_bg": "#FFFDFB",
-        "chart_text": "#2C1F15",
-        "chart_label": "#7C6E65",
-        "chart_grid": "#F5EFEA",
-        "chart_spine": "#EFE7E0",
-        "chart_legend_bg": "#FFFDFB",
-        "chart_legend_border": "#EFE7E0",
-        "heatmap_colors": ["#FFF8E1", "#FFE082", "#FFB300", "#E65100", "#5D1B00"]
-    }
 }
 
-if "theme" not in st.session_state:
-    st.session_state.theme = "dark"
+t = THEMES["dark"]
 
-t = THEMES[st.session_state.theme]
-
-# Set matplotlib and seaborn dynamic parameters
-if st.session_state.theme == "dark":
-    plt.style.use("dark_background")
-else:
-    plt.style.use("default")
+plt.style.use("dark_background")
 
 plt.rcParams.update({
     "figure.facecolor": t["chart_bg"],
@@ -109,41 +70,41 @@ plt.rcParams.update({
     "font.family": "sans-serif"
 })
 
-# Custom Styling for Premium Look (Google Material 3 Expressive Guidelines with Dynamic CSS Variables)
+# Custom Styling — Minimal Clean Design
 st.markdown(f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
-/* CSS Theme Variables */
 :root {{
     --bg-app: {t['bg_app']};
-    --bg-sidebar: {t['bg_sidebar']};
     --bg-card: {t['bg_card']};
     --bg-card-tonal: {t['bg_card_tonal']};
     --text-primary: {t['text_primary']};
     --text-muted: {t['text_muted']};
-    --border-color: {t['border_color']};
     --text-glow: {t['text_glow']};
+    --border-color: {t['border_color']};
 }}
 
-/* App resets and baseline */
 html, body, [class*="css"] {{
     font-family: 'Plus Jakarta Sans', sans-serif !important;
 }}
 
 .stApp {{
     background-color: var(--bg-app) !important;
-    color: var(--text-primary) !important;
+    color: var(--text-primary);
 }}
 
-.stAppHeader {{
-    background-color: {t['bg_app_header']} !important;
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border-color);
+[data-testid="stSidebar"] {{
+    background-color: {t['bg_sidebar']} !important;
+    border-right: 1px solid var(--border-color) !important;
+    color: var(--text-primary);
 }}
 
-/* Custom Typography */
+.stCaption, [data-testid="stCaption"] {{
+    color: var(--text-muted) !important;
+}}
+
 h1, h2, h3, h4, h5, h6 {{
     font-family: 'Outfit', sans-serif !important;
     font-weight: 700 !important;
@@ -152,326 +113,110 @@ h1, h2, h3, h4, h5, h6 {{
 }}
 
 .gradient-text {{
-    background: linear-gradient(135deg, #FF9100 0%, #FF3D00 50%, #FFE082 100%);
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 50%, #FACC15 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
 }}
 
-/* Material 3 Expressive Containers */
+.material-symbols-outlined {{
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+    vertical-align: middle;
+}}
+
 .m3-hero {{
     background: {t['bg_hero']};
-    border-radius: 32px;
+    border-radius: 0.5rem;
     border: 1px solid {t['border_color_hero']};
     padding: 32px;
     margin-bottom: 32px;
-    box-shadow: {"0 12px 30px rgba(0, 0, 0, 0.35)" if st.session_state.theme == "dark" else "0 12px 30px rgba(0, 0, 0, 0.05)"};
     display: flex;
     align-items: center;
     gap: 24px;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }}
 
 .m3-hero:hover {{
-    border-color: rgba(255, 143, 0, 0.3);
-    box-shadow: 0 16px 40px rgba(255, 143, 0, 0.08);
+    box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.05);
+    border-color: rgba(249, 115, 22, 0.3) !important;
 }}
 
 .m3-card {{
     background-color: var(--bg-card);
-    border-radius: 28px;
+    background-color: color-mix(in srgb, var(--bg-card) 85%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 0.5rem;
     border: 1px solid var(--border-color);
-    padding: 28px;
-    margin-bottom: 24px;
-    box-shadow: {"0 8px 24px rgba(0, 0, 0, 0.25)" if st.session_state.theme == "dark" else "0 8px 24px rgba(0, 0, 0, 0.03)"};
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    padding: 24px;
+    margin-bottom: 20px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }}
 
 .m3-card:hover {{
     transform: translateY(-4px);
-    box-shadow: {"0 12px 32px rgba(255, 143, 0, 0.08)" if st.session_state.theme == "dark" else "0 12px 32px rgba(255, 87, 34, 0.05)"};
-    border-color: rgba(255, 143, 0, 0.2);
+    box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.05);
+    border-color: rgba(249, 115, 22, 0.3) !important;
 }}
 
 .m3-card-tonal {{
     background-color: var(--bg-card-tonal);
-    border-radius: 28px;
-    padding: 28px;
-    margin-bottom: 24px;
-    border: 1px solid var(--border-color);
-}}
-
-.m3-card-outlined {{
-    background-color: transparent;
-    border-radius: 28px;
-    border: 2px solid {t['border_color_hero']};
-    padding: 28px;
-    margin-bottom: 24px;
-    transition: all 0.3s ease;
-}}
-
-.m3-card-outlined:hover {{
-    border-color: rgba(255, 143, 0, 0.3);
-    background-color: rgba(255, 143, 0, 0.02);
-}}
-
-/* Material Symbols Integration styles */
-.material-symbols-outlined {{
-    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    vertical-align: middle;
-    display: inline-block;
-}}
-
-/* Custom M3 Metrics Panel */
-.m3-metric-card {{
-    background-color: var(--bg-card);
-    border-radius: 24px;
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    box-shadow: {"0 6px 18px rgba(0, 0, 0, 0.2)" if st.session_state.theme == "dark" else "0 6px 18px rgba(0, 0, 0, 0.03)"};
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}}
-
-.m3-metric-card:hover {{
-    transform: translateY(-2px);
-    border-color: rgba(255, 143, 0, 0.18);
-    box-shadow: 0 10px 24px rgba(255, 143, 0, 0.06);
-}}
-
-/* Custom M3 Segmented Navigation Tabs */
-div[role="tablist"] {{
-    background-color: {t['bg_tablist']} !important;
-    border-radius: 28px !important;
-    padding: 8px !important;
-    border: 1px solid var(--border-color) !important;
-    gap: 8px !important;
-    margin-bottom: 32px !important;
-}}
-
-button[data-baseweb="tab"] {{
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 0.95em !important;
-    font-weight: 600 !important;
-    color: var(--text-muted) !important;
-    padding: 12px 24px !important;
-    border-radius: 20px !important;
-    border: none !important;
-    background-color: transparent !important;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-    margin: 0 !important;
-}}
-
-button[data-baseweb="tab"]:hover {{
-    color: {t['text_tab_hover']} !important;
-    background-color: {t['bg_tab_hover']} !important;
-}}
-
-button[data-baseweb="tab"][aria-selected="true"] {{
-    background-color: {t['bg_tab_active']} !important;
-    color: {t['text_tab_active']} !important;
-    font-weight: 700 !important;
-    box-shadow: {"0 4px 12px rgba(0, 0, 0, 0.25)" if st.session_state.theme == "dark" else "0 4px 10px rgba(0, 0, 0, 0.05)"} !important;
-}}
-
-/* Hide default bottom active-bar */
-button[data-baseweb="tab"][aria-selected="true"]::after {{
-    display: none !important;
-}}
-
-/* Input Fields styling overrides */
-div[data-baseweb="input"] > div, 
-div[data-baseweb="select"] > div, 
-div[data-baseweb="base-input"] {{
-    border-radius: 16px !important;
-    border: 1.5px solid {t['border_color_input']} !important;
-    background-color: {t['bg_input']} !important;
-    color: var(--text-primary) !important;
-    transition: all 0.3s ease !important;
-}}
-
-div[data-baseweb="input"]:focus-within > div, 
-div[data-baseweb="select"]:focus-within > div {{
-    border-color: #FFA000 !important;
-    box-shadow: 0 0 10px rgba(255, 160, 0, 0.2) !important;
-}}
-
-/* Sliders */
-div[data-baseweb="slider"] > div > div {{
-    background: linear-gradient(90deg, #FF5722, #FFA000) !important;
-    height: 10px !important;
-    border-radius: 5px !important;
-}}
-
-div[data-baseweb="slider"] [role="slider"] {{
-    background-color: #FFA000 !important;
-    border: 3px solid var(--bg-card) !important;
-    width: 24px !important;
-    height: 24px !important;
-    border-radius: 50% !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
-    transition: all 0.2s ease !important;
-}}
-
-div[data-baseweb="slider"] [role="slider"]:hover {{
-    transform: scale(1.2) !important;
-    box-shadow: 0 4px 12px rgba(255, 160, 0, 0.4) !important;
-}}
-
-/* Radio buttons styling */
-div[data-testid="stMarkdownContainer"] p {{
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-}}
-
-div[data-baseweb="radio"] label {{
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    color: var(--text-primary) !important;
-    font-weight: 500 !important;
-}}
-
-div[role="radiogroup"] {{
-    gap: 16px !important;
-}}
-
-/* Buttons */
-.stButton>button {{
-    background: linear-gradient(135deg, #FF5722 0%, #FFA000 100%) !important;
-    color: #FFFFFF !important;
-    border: none !important;
-    border-radius: 100px !important;
-    padding: 12px 36px !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-weight: 700 !important;
-    font-size: 1.02em !important;
-    letter-spacing: 0.2px !important;
-    box-shadow: 0 6px 18px rgba(255, 87, 34, 0.25) !important;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}}
-
-.stButton>button:hover {{
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 10px 24px rgba(255, 160, 0, 0.4) !important;
-    background: linear-gradient(135deg, #FFA000 0%, #FFE082 100%) !important;
-    color: #120E0B !important;
-}}
-
-.stButton>button:active {{
-    transform: translateY(1px) scale(0.98) !important;
-}}
-
-/* Reset button in sidebar spec */
-[data-testid="stSidebar"] button {{
-    background: {"#2C1A1A" if st.session_state.theme == "dark" else "#FCE8E6"} !important;
-    color: #FF5722 !important;
-    border: 1px solid rgba(255, 87, 34, 0.3) !important;
-    border-radius: 100px !important;
-    padding: 8px 20px !important;
-    font-size: 0.85em !important;
-    box-shadow: none !important;
-}}
-[data-testid="stSidebar"] button:hover {{
-    background: #FF5722 !important;
-    color: #FFFFFF !important;
-    border-color: #FF5722 !important;
-}}
-
-/* Download & File Upload controls */
-.stDownloadButton>button {{
-    background: {t['bg_download']} !important;
-    color: {t['text_download']} !important;
-    border: 1.5px solid {t['border_download']} !important;
-    border-radius: 100px !important;
-    padding: 10px 28px !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-weight: 600 !important;
-    transition: all 0.3s ease !important;
-}}
-
-.stDownloadButton>button:hover {{
-    background: #FFA000 !important;
-    color: #120E0B !important;
-    border-color: #FFA000 !important;
-}}
-
-[data-testid="stFileUploader"] {{
-    background-color: var(--bg-card) !important;
-    border: 2px dashed {t['border_color_input']} !important;
-    border-radius: 24px !important;
-    padding: 24px !important;
-    transition: all 0.3s ease !important;
-}}
-
-[data-testid="stFileUploader"]:hover {{
-    border-color: #FFA000 !important;
-    background-color: {t['bg_tab_hover']} !important;
-}}
-
-/* Dataframe customization */
-[data-testid="stDataFrame"] {{
-    border: 1px solid var(--border-color) !important;
-    border-radius: 20px !important;
-    overflow: hidden !important;
-    background-color: var(--bg-card) !important;
-}}
-
-/* Custom beautiful alert blocks */
-.m3-alert {{
-    background-color: rgba(255, 143, 0, 0.08);
-    border-left: 4px solid #FFA000;
-    border-radius: 16px;
-    padding: 16px 20px;
+    background-color: color-mix(in srgb, var(--bg-card-tonal) 85%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 0.5rem;
+    padding: 24px;
     margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}}
+
+.m3-card-tonal:hover {{
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.05);
+    border-color: rgba(249, 115, 22, 0.3) !important;
+}}
+
+.m3-alert {{
+    background-color: rgba(249, 115, 22, 0.08);
+    border-left: 4px solid #F97316;
+    border-radius: 0.5rem;
+    padding: 14px 18px;
+    margin-bottom: 16px;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
 }}
 
 .m3-alert-warning {{
-    background-color: rgba(255, 61, 0, 0.08);
-    border-left: 4px solid #FF3D00;
-    border-radius: 16px;
-    padding: 16px 20px;
-    margin-bottom: 20px;
+    background-color: rgba(239, 68, 68, 0.08);
+    border-left: 4px solid #EF4444;
+    border-radius: 0.5rem;
+    padding: 14px 18px;
+    margin-bottom: 16px;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
 }}
 
-.m3-alert-info {{
-    background-color: rgba(41, 121, 255, 0.08);
-    border-left: 4px solid #2979FF;
-    border-radius: 16px;
-    padding: 16px 20px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-}}
-
-/* Custom Table Style */
 .m3-table {{
     width: 100%;
     border-collapse: collapse;
-    margin: 16px 0;
-    font-size: 0.95em;
-    border-radius: 16px;
+    border-radius: 0.5rem;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }}
 
 .m3-table th {{
     background-color: var(--bg-card-tonal);
-    color: #FFA000;
+    color: {t['text_tab_active']};
     text-align: left;
-    padding: 14px 16px;
+    padding: 12px 14px;
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
 }}
 
 .m3-table td {{
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-primary);
     background-color: var(--bg-card);
@@ -481,48 +226,136 @@ div[role="radiogroup"] {{
     border-bottom: none;
 }}
 
-.m3-table tr:hover td {{
-    background-color: {t['bg_input']};
+/* Animation Keyframes */
+@keyframes fadeInUp {{
+    from {{
+        opacity: 0;
+        transform: translateY(20px);
+    }}
+    to {{
+        opacity: 1;
+        transform: translateY(0);
+    }}
 }}
 
-[data-testid="stSidebar"] {{
-    background-color: var(--bg-sidebar) !important;
-    border-right: 1px solid var(--border-color) !important;
+@keyframes float {{
+    0%, 100% {{
+        transform: translateY(0px);
+    }}
+    50% {{
+        transform: translateY(-8px);
+    }}
 }}
 
-/* Segmented Control styling */
-div[data-testid="stSegmentedControl"] {{
-    background-color: {t['bg_tablist']} !important;
-    border-radius: 20px !important;
-    padding: 4px !important;
-    border: 1px solid var(--border-color) !important;
-    gap: 4px !important;
-    width: 100% !important;
+@keyframes pulse-slow {{
+    0%, 100% {{
+        opacity: 1;
+    }}
+    50% {{
+        opacity: 0.6;
+    }}
 }}
 
-div[data-testid="stSegmentedControl"] button {{
-    flex: 1 !important;
-    border: none !important;
-    border-radius: 16px !important;
-    padding: 8px 12px !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 0.85em !important;
-    font-weight: 600 !important;
-    color: var(--text-muted) !important;
-    background-color: transparent !important;
-    transition: all 0.2s ease !important;
+@keyframes bounce-slow {{
+    0%, 100% {{
+        transform: translateY(0);
+    }}
+    50% {{
+        transform: translateY(-3px);
+    }}
 }}
 
-div[data-testid="stSegmentedControl"] button:hover {{
-    color: {t['text_tab_hover']} !important;
-    background-color: {t['bg_tab_hover']} !important;
+@keyframes shimmer {{
+    0% {{
+        background-position: -1000px 0;
+    }}
+    100% {{
+        background-position: 1000px 0;
+    }}
 }}
 
-div[data-testid="stSegmentedControl"] button[aria-checked="true"] {{
-    background-color: {t['bg_tab_active']} !important;
-    color: {t['text_tab_active']} !important;
-    font-weight: 700 !important;
+@keyframes loading-slide {{
+    0% {{
+        transform: translateX(-100%);
+    }}
+    100% {{
+        transform: translateX(100%);
+    }}
 }}
+
+.animate-item {{
+    animation: fadeInUp 0.7s ease-out forwards;
+}}
+
+.animate-float {{
+    animation: float 3s ease-in-out infinite;
+}}
+
+.animate-pulse-slow {{
+    animation: pulse-slow 3s ease-in-out infinite;
+}}
+
+.animate-bounce-slow {{
+    animation: bounce-slow 2s ease-in-out infinite;
+}}
+
+.animate-loading-slide {{
+    animation: loading-slide 1.5s ease-in-out infinite;
+}}
+
+.animate-shimmer {{
+    animation: shimmer 2s linear infinite;
+    background: linear-gradient(to right, transparent 0%, rgba(249, 115, 22, 0.1) 50%, transparent 100%);
+    background-size: 1000px 100%;
+}}
+
+/* Background effects */
+.stApp::before {{
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.05) 1px, transparent 0);
+    background-size: 32px 32px;
+}}
+
+.stApp::after {{
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(circle at 90% 10%, rgba(249, 115, 22, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 10% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+    background-size: 500px 500px, 400px 400px;
+    background-repeat: no-repeat, no-repeat;
+    background-position: top right, bottom left;
+    animation: pulse-slow 8s ease-in-out infinite;
+}}
+
+/* Tab navigation icons */
+[data-testid="stTabs"] button[data-testid="stTab"] {{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 1.05em !important;
+    padding: 10px 18px !important;
+}}
+
+[data-testid="stTabs"] button[data-testid="stTab"]::before {{
+    font-family: 'Material Symbols Outlined';
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    font-size: 22px;
+}}
+
+[data-testid="stTabs"] button[data-testid="stTab"]:nth-child(1)::before {{ content: "dashboard"; }}
+[data-testid="stTabs"] button[data-testid="stTab"]:nth-child(2)::before {{ content: "database"; }}
+[data-testid="stTabs"] button[data-testid="stTab"]:nth-child(3)::before {{ content: "query_stats"; }}
+[data-testid="stTabs"] button[data-testid="stTab"]:nth-child(4)::before {{ content: "model_training"; }}
+[data-testid="stTabs"] button[data-testid="stTab"]:nth-child(5)::before {{ content: "tune"; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -539,11 +372,11 @@ def hex_to_rgb(hex_str):
     hex_str = hex_str.lstrip('#')
     return tuple(int(hex_str[i:i+2], 16) for i in (0, 2, 4))
 
-def m3_metric_card(label, value, icon, color="#FFA000", bg_opacity=0.12):
+def m3_metric_card(label, value, icon, color="#F97316", bg_opacity=0.12):
     rgb_tuple = hex_to_rgb(color)
     return f"""
-    <div class="m3-metric-card" style="border-left: 5px solid {color}; width: 100%;">
-        <div style="background-color: rgba({rgb_tuple[0]}, {rgb_tuple[1]}, {rgb_tuple[2]}, {bg_opacity}); width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+    <div style="border-left: 5px solid {color}; width: 100%; display: flex; align-items: center; gap: 14px;">
+        <div style="background-color: rgba({rgb_tuple[0]}, {rgb_tuple[1]}, {rgb_tuple[2]}, {bg_opacity}); width: 44px; height: 44px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
             <span class="material-symbols-outlined" style="color: {color}; font-size: 22px;">{icon}</span>
         </div>
         <div style="overflow: hidden; text-align: left;">
@@ -561,9 +394,9 @@ def make_html_coef_table(coef_df):
         p_val = row['p-Value']
         sig_badge = ""
         if p_val < 0.05:
-            sig_badge = '<span style="background-color: rgba(0, 200, 83, 0.12); color: #00E676; padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.85em; display: inline-block;">★ Significant</span>'
+            sig_badge = '<span style="background-color: rgba(34, 197, 94, 0.12); color: #22C55E; padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.85em; display: inline-block;">★ Significant</span>'
         else:
-            sig_badge = '<span style="background-color: rgba(166, 155, 149, 0.12); color: var(--text-muted); padding: 4px 10px; border-radius: 20px; font-weight: 500; font-size: 0.85em; display: inline-block;">Not Significant</span>'
+            sig_badge = '<span style="background-color: rgba(148, 163, 184, 0.12); color: var(--text-muted); padding: 4px 10px; border-radius: 20px; font-weight: 500; font-size: 0.85em; display: inline-block;">Not Significant</span>'
         
         feat_name = idx
         friendly_names = {
@@ -585,7 +418,7 @@ def make_html_coef_table(coef_df):
             <td style="font-family: monospace; font-weight: 600;">{row['Coefficient (β)']:.4f}</td>
             <td style="font-family: monospace; color: var(--text-muted);">{row['Standard Error']:.4f}</td>
             <td style="font-family: monospace; color: var(--text-muted);">{row['t-Statistic']:.2f}</td>
-            <td style="font-family: monospace; font-weight: 600; color: {'#00E676' if p_val < 0.05 else 'var(--text-primary)'};">{p_val:.4f}</td>
+            <td style="font-family: monospace; font-weight: 600; color: {'#22C55E' if p_val < 0.05 else 'var(--text-primary)'};">{p_val:.4f}</td>
             <td>{sig_badge}</td>
         </tr>
         """
@@ -594,7 +427,6 @@ def make_html_coef_table(coef_df):
 
 # Matplotlib high-fidelity charting helpers
 def plot_correlation_heatmap(df):
-    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
     fig.patch.set_facecolor(t["chart_bg"])
     ax.set_facecolor(t["chart_axes_bg"])
@@ -630,19 +462,18 @@ def plot_correlation_heatmap(df):
     return fig
 
 def plot_scatter_population_memberships(df):
-    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
     fig.patch.set_facecolor(t["chart_bg"])
     ax.set_facecolor(t["chart_axes_bg"])
     
     programs = df['program'].unique()
     color_map = {
-        'BSCS': '#FF5722',
-        'BSIT': '#FFB300',
-        'BSCE': '#4CAF50',
-        'BSEE': '#00BCD4',
-        'BSAE': '#E040FB',
-        'BSAB': '#9E9E9E'
+        'BSCS': '#F97316',
+        'BSIT': '#3B82F6',
+        'BSCE': '#10B981',
+        'BSEE': '#8B5CF6',
+        'BSAE': '#EC4899',
+        'BSAB': '#94A3B8'
     }
     
     for prog in programs:
@@ -650,7 +481,7 @@ def plot_scatter_population_memberships(df):
         ax.scatter(
             prog_data['population'], 
             prog_data['paid_memberships'], 
-            color=color_map.get(prog, '#FFA000'), 
+            color=color_map.get(prog, t['text_tab_active']), 
             label=prog, 
             s=65, 
             edgecolors=t["chart_bg"], 
@@ -661,7 +492,7 @@ def plot_scatter_population_memberships(df):
     x_line = np.linspace(df['population'].min(), df['population'].max(), 100)
     coef = np.polyfit(df['population'], df['paid_memberships'], 1)
     poly1d_fn = np.poly1d(coef)
-    ax.plot(x_line, poly1d_fn(x_line), color=t["text_glow"], linestyle='--', linewidth=1.5, alpha=0.6, label='Trendline')
+    ax.plot(x_line, poly1d_fn(x_line), color=t["text_tab_active"], linestyle='--', linewidth=1.5, alpha=0.6, label='Trendline')
     
     ax.tick_params(colors=t["chart_label"], labelsize=8.5)
     ax.xaxis.label.set_color(t["chart_label"])
@@ -675,13 +506,12 @@ def plot_scatter_population_memberships(df):
     for spine in ax.spines.values():
         spine.set_color(t["chart_spine"])
         
-    ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':')
+    ax.grid(True, color=t['chart_label'], alpha=0.1, linestyle=':')
     ax.legend(facecolor=t["chart_legend_bg"], edgecolor=t["chart_legend_border"], labelcolor=t["chart_text"], fontsize=8.5)
     plt.tight_layout()
     return fig
 
 def plot_avg_memberships_program(df):
-    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
     fig.patch.set_facecolor(t["chart_bg"])
     ax.set_facecolor(t["chart_axes_bg"])
@@ -690,7 +520,7 @@ def plot_avg_memberships_program(df):
     avg_paid = avg_paid.sort_values(by='paid_memberships', ascending=False)
     
     bar_colors = [
-        '#FF5722', '#FF8F00', '#FFB300', '#FFC107', '#FFE082', '#FFF8E1' if st.session_state.theme == 'dark' else '#2C1F15'
+        '#F97316', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#94A3B8'
     ][:len(avg_paid)]
     
     bars = ax.bar(avg_paid['program'], avg_paid['paid_memberships'], color=bar_colors, edgecolor='none', width=0.55, alpha=0.9)
@@ -713,12 +543,11 @@ def plot_avg_memberships_program(df):
     for spine in ax.spines.values():
         spine.set_color(t["chart_spine"])
         
-    ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':', axis='y')
+    ax.grid(True, color=t['chart_label'], alpha=0.1, linestyle=':', axis='y')
     plt.tight_layout()
     return fig
 
 def plot_membership_trend(df):
-    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
     fig.patch.set_facecolor(t["chart_bg"])
     ax.set_facecolor(t["chart_axes_bg"])
@@ -731,19 +560,19 @@ def plot_membership_trend(df):
     ax.plot(
         avg_trend['period'], 
         avg_trend['paid_memberships'], 
-        color='#FF8F00', 
+        color='#F97316', 
         marker='o', 
         markersize=6, 
         linewidth=2, 
-        markerfacecolor='#FFE082', 
-        markeredgecolor='#FF5722', 
+        markerfacecolor='#FED7AA', 
+        markeredgecolor='#EA580C', 
         label='Total Memberships'
     )
     
     ax.fill_between(
         avg_trend['period'], 
         avg_trend['paid_memberships'], 
-        color='#FF5722', 
+        color='#F97316', 
         alpha=0.12
     )
     
@@ -764,17 +593,16 @@ def plot_membership_trend(df):
     for spine in ax.spines.values():
         spine.set_color(t["chart_spine"])
         
-    ax.grid(True, color='#FF8F00', alpha=0.05, linestyle=':')
+    ax.grid(True, color=t['chart_label'], alpha=0.05, linestyle=':')
     plt.tight_layout()
     return fig
 
 def plot_residual_chart(y_test, y_pred):
-    t = THEMES[st.session_state.theme]
     fig, ax = plt.subplots(figsize=(5, 4.2), dpi=100)
     fig.patch.set_facecolor(t["chart_bg"])
     ax.set_facecolor(t["chart_axes_bg"])
     
-    ax.scatter(y_test, y_pred, color='#FFC107', edgecolors='#FF5722', s=55, alpha=0.85, label='Actual Data')
+    ax.scatter(y_test, y_pred, color='#F97316', edgecolors='#EA580C', s=55, alpha=0.85, label='Actual Data')
     ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color=t["text_glow"], linestyle='--', linewidth=2, label='Perfect Fit')
     
     ax.tick_params(colors=t["chart_label"], labelsize=9)
@@ -789,7 +617,7 @@ def plot_residual_chart(y_test, y_pred):
     for spine in ax.spines.values():
         spine.set_color(t["chart_spine"])
         
-    ax.grid(True, color='#FF8F00', alpha=0.06, linestyle=':')
+    ax.grid(True, color=t['chart_label'], alpha=0.06, linestyle=':')
     ax.legend(facecolor=t["chart_legend_bg"], edgecolor=t["chart_legend_border"], labelcolor=t["chart_text"], fontsize=9)
     plt.tight_layout()
     return fig
@@ -810,30 +638,19 @@ if os.path.exists("logo.jpg"):
 st.sidebar.markdown("<h2 class='gradient-text' style='font-family: Outfit; font-size: 1.55em; margin-bottom: 0px;'>CEIT-SC ML System</h2>", unsafe_allow_html=True)
 st.sidebar.caption("Cavite State University — Main Campus")
 
-# Dynamic Theme Selector Control
-selected_theme = st.sidebar.segmented_control(
-    "theme_toggle", options=["🌙 Dark", "☀️ Light"],
-    default="🌙 Dark" if st.session_state.theme == "dark" else "☀️ Light",
-    label_visibility="collapsed", key="theme_selector_widget"
-)
-new_theme = "dark" if selected_theme == "🌙 Dark" else "light"
-if new_theme != st.session_state.theme:
-    st.session_state.theme = new_theme
-    st.rerun()
-
 
 if model_exists:
     st.sidebar.markdown("""
-    <div style="background-color: rgba(0, 200, 83, 0.08); border-left: 4px solid #00C853; border-radius: 12px; padding: 12px; margin-bottom: 16px; margin-top: 16px;">
-        <div style="font-size: 0.8em; color: #A69B95; font-weight: 600; text-transform: uppercase;">System Status</div>
-        <div style="font-size: 0.95em; font-weight: 700; color: #00E676; margin-top: 2px; display: flex; align-items: center; gap: 6px;">
+    <div class="m3-alert" style="border-left-color: #22C55E; background-color: rgba(34, 197, 94, 0.08); margin-bottom: 16px; margin-top: 16px;">
+        <div style="font-size: 0.8em; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">System Status</div>
+        <div style="font-size: 0.95em; font-weight: 700; color: #22C55E; margin-top: 2px; display: flex; align-items: center; gap: 6px;">
             <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span> Active Predictor
         </div>
     </div>
-    <div style="background-color: rgba(255, 143, 0, 0.08); border-left: 4px solid #FFA000; border-radius: 12px; padding: 12px; margin-bottom: 24px;">
-        <div style="font-size: 0.8em; color: #A69B95; font-weight: 600; text-transform: uppercase;">Model Engine</div>
-        <div style="font-size: 0.9em; color: #FFF8E1; margin-top: 2px; font-weight: 500;">Multiple Linear Regression</div>
-        <div style="font-size: 0.8em; color: #A69B95; margin-top: 2px;">sklearn + statsmodels OLS</div>
+    <div class="m3-card" style="padding: 14px; margin-bottom: 24px;">
+        <div style="font-size: 0.8em; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Model Engine</div>
+        <div style="font-size: 0.9em; color: var(--text-primary); margin-top: 2px; font-weight: 500;">Multiple Linear Regression</div>
+        <div style="font-size: 0.8em; color: var(--text-muted); margin-top: 2px;">sklearn + statsmodels OLS</div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -848,9 +665,9 @@ if model_exists:
         st.rerun()
 else:
     st.sidebar.markdown("""
-    <div style="background-color: rgba(255, 61, 0, 0.08); border-left: 4px solid #FF3D00; border-radius: 12px; padding: 12px; margin-bottom: 24px; margin-top: 16px;">
-        <div style="font-size: 0.8em; color: #A69B95; font-weight: 600; text-transform: uppercase;">System Status</div>
-        <div style="font-size: 0.95em; font-weight: 700; color: #FF3D00; margin-top: 2px; display: flex; align-items: center; gap: 6px;">
+    <div class="m3-alert-warning" style="margin-bottom: 24px; margin-top: 16px;">
+        <div style="font-size: 0.8em; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">System Status</div>
+        <div style="font-size: 0.95em; font-weight: 700; color: #EF4444; margin-top: 2px; display: flex; align-items: center; gap: 6px;">
             <span class="material-symbols-outlined" style="font-size: 16px;">cancel</span> Uninitialized
         </div>
     </div>
@@ -864,7 +681,7 @@ if not model_exists:
     
     st.markdown(f"""
     <div class="m3-hero" style="margin-top: 20px;">
-        <img src="{logo_base64}" style="width: 80px; height: 80px; border-radius: 20px; border: 2px solid #FFB300;" />
+        <img src="{logo_base64}" style="width: 80px; height: 80px; border-radius: 0.5rem; border: 2px solid {t['text_tab_active']};" />
         <div>
             <h1 class="gradient-text" style="margin: 0; font-size: 2.2em; font-family: 'Outfit';">CEIT-SC Membership Prediction System</h1>
             <p style="margin: 6px 0 0 0; color: var(--text-muted); font-size: 1.05em; font-weight: 500;">
@@ -877,7 +694,7 @@ if not model_exists:
     st.markdown("""
     <div class="m3-card">
         <h3 style="margin-top: 0; display: flex; align-items: center; gap: 8px; font-family: 'Outfit';">
-            <span class="material-symbols-outlined" style="color: #FFA000; font-size: 28px;">auto_awesome</span>
+            <span class="material-symbols-outlined" style="color: {t['text_tab_active']}; font-size: 28px;">auto_awesome</span>
             System Onboarding Wizard
         </h3>
         <p style="color: var(--text-primary); line-height: 1.6; margin-bottom: 0;">
@@ -972,10 +789,10 @@ if not model_exists:
                 st.balloons()
                 
                 st.markdown(f"""
-                <div class="m3-alert" style="border-left-color: #00C853; background-color: rgba(0, 200, 83, 0.08); margin-top: 20px;">
-                    <span class="material-symbols-outlined" style="color: #00C853;">check_circle</span>
+                <div class="m3-alert" style="border-left-color: #22C55E; background-color: rgba(34, 197, 94, 0.08); margin-top: 20px;">
+                    <span class="material-symbols-outlined" style="color: #22C55E;">check_circle</span>
                     <div>
-                        <strong style="color: #00C853; font-family: 'Outfit';">Model Initialized Successfully</strong><br>
+                        <strong style="color: #22C55E; font-family: 'Outfit';">Model Initialized Successfully</strong><br>
                         <span style="font-size: 0.95em; color: var(--text-primary);">The Multiple Linear Regression model has been trained on {len(clean_df)} historical records.</span>
                     </div>
                 </div>
@@ -984,11 +801,11 @@ if not model_exists:
                 # Show results in custom metric cards
                 col_on1, col_on2, col_on3 = st.columns(3)
                 with col_on1:
-                    st.markdown(m3_metric_card("Dataset Rows", f"{len(clean_df)}", "database", "#FFA000"), unsafe_allow_html=True)
+                    st.markdown(m3_metric_card("Dataset Rows", f"{len(clean_df)}", "database"), unsafe_allow_html=True)
                 with col_on2:
-                    st.markdown(m3_metric_card("R² Accuracy", f"{results['r2']:.4f}", "emoji_events", "#00C853"), unsafe_allow_html=True)
+                    st.markdown(m3_metric_card("R² Accuracy", f"{results['r2']:.4f}", "emoji_events", "#22C55E"), unsafe_allow_html=True)
                 with col_on3:
-                    st.markdown(m3_metric_card("RMSE Loss", f"{results['rmse']:.2f}", "trending_down", "#FF5722"), unsafe_allow_html=True)
+                    st.markdown(m3_metric_card("RMSE Loss", f"{results['rmse']:.2f}", "trending_down"), unsafe_allow_html=True)
                 
                 sig_vars = []
                 p_values = results['ols_model'].pvalues
@@ -1008,10 +825,10 @@ if not model_exists:
                 
                 st.markdown(f"""
                 <div class="m3-card" style="margin-top: 20px;">
-                    <h4 style="margin-top: 0; font-family: 'Outfit'; color: #FFA000;">Statistical Significance Check</h4>
+                    <h4 style="margin-top: 0; font-family: 'Outfit'; color: {t['text_tab_active']};">Statistical Significance Check</h4>
                     <p style="margin-bottom: 0;">Variables with statistically significant influence (p < 0.05):</p>
                     <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
-                        {" ".join([f'<span style="background-color: rgba(0, 200, 83, 0.12); color: #00E676; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.9em;">{name}</span>' for name in sig_display]) if sig_display else '<span style="color: #A69B95;">None (check sample size)</span>'}
+                        {" ".join([f'<span style="background-color: rgba(34, 197, 94, 0.12); color: #22C55E; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.9em;">{name}</span>' for name in sig_display]) if sig_display else '<span style="color: var(--text-muted);">None (check sample size)</span>'}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1045,7 +862,7 @@ else:
     logo_base64 = get_base64_image("logo.jpg")
     st.markdown(f"""
     <div class="m3-hero">
-        <img src="{logo_base64}" style="width: 80px; height: 80px; border-radius: 20px; border: 2px solid #FFB300;" />
+        <img src="{logo_base64}" style="width: 80px; height: 80px; border-radius: 0.5rem; border: 2px solid {t['text_tab_active']};" />
         <div>
             <h1 class="gradient-text" style="margin: 0; font-size: 2.2em; font-family: 'Outfit';">CEIT-SC Membership Analytics Portal</h1>
             <p style="margin: 4px 0 0 0; color: var(--text-muted); font-size: 1.02em; font-weight: 500;">
@@ -1057,11 +874,11 @@ else:
     
     # M3 Pill Navigation Tabs
     tab_home, tab_explorer, tab_eda, tab_model, tab_predict = st.tabs([
-        "🏠 Home / Overview", 
-        "📊 Data Explorer", 
-        "📈 EDA Dashboard", 
-        "🤖 Model Results", 
-        "🔮 Predictor Playground"
+        "Overview", 
+        "Data Explorer", 
+        "EDA Dashboard", 
+        "Model Results", 
+        "Predictor"
     ])
     
     # ------------------------------------------
@@ -1073,7 +890,7 @@ else:
         with col_main:
             st.markdown(f"""
             <div class="m3-card">
-                <h3 style="margin-top: 0; color: #FFA000; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
+                <h3 style="margin-top: 0; color: {t['text_tab_active']}; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
                     <span class="material-symbols-outlined">school</span>
                     Project Overview
                 </h3>
@@ -1091,21 +908,21 @@ else:
             
             st.markdown(f"""
             <div class="m3-card">
-                <h3 style="margin-top: 0; color: #FFA000; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
+                <h3 style="margin-top: 0; color: {t['text_tab_active']}; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
                     <span class="material-symbols-outlined">help_center</span>
                     Research Questions Addressed
                 </h3>
                 <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
                     <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background-color: rgba(255, 143, 0, 0.12); color: #FFA000; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85em;">RQ1</span>
+                        <span style="background-color: {t['bg_tab_active']}; color: {t['text_tab_active']}; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85em;">RQ1</span>
                         <div><strong>Historical Profile:</strong> What are the historical enrollment patterns, fee collection volumes, and modality preferences (cash vs online) across different CEIT courses?</div>
                     </div>
                     <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background-color: rgba(255, 143, 0, 0.12); color: #FFA000; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85em;">RQ2</span>
+                        <span style="background-color: {t['bg_tab_active']}; color: {t['text_tab_active']}; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85em;">RQ2</span>
                         <div><strong>Feature Significance:</strong> Which organizational and external factors (population, payment modality, benefits claimed, officer counts, event frequencies) significantly influence membership collections?</div>
                     </div>
                     <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background-color: rgba(255, 143, 0, 0.12); color: #FFA000; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85em;">RQ3</span>
+                        <span style="background-color: {t['bg_tab_active']}; color: {t['text_tab_active']}; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.85em;">RQ3</span>
                         <div><strong>Predictive Accuracy:</strong> How accurately can the fitted multiple regression model predict collection outcomes for upcoming semesters?</div>
                     </div>
                 </div>
@@ -1125,21 +942,21 @@ else:
         with col_ipo:
             st.markdown("""
             <div class="m3-card">
-                <h3 style="margin-top: 0; color: #FFA000; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
+                <h3 style="margin-top: 0; color: {t['text_tab_active']}; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
                     <span class="material-symbols-outlined">account_tree</span>
                     System Architecture (IPO)
                 </h3>
                 <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="background-color: rgba(41, 121, 255, 0.12); color: #2979FF; font-weight: 700; width: 85px; padding: 6px; border-radius: 12px; text-align: center; font-size: 0.85em;">INPUT</div>
+                        <div style="background-color: rgba(59, 130, 246, 0.12); color: #3B82F6; font-weight: 700; width: 85px; padding: 6px; border-radius: 0.5rem; text-align: center; font-size: 0.85em;">INPUT</div>
                         <div style="font-size: 0.9em; color: var(--text-primary);">Program population (X₁), online payment ratio (X₂), semester index (X₃), benefits claimed (X₄), officer count (X₅), events held (X₆)</div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="background-color: rgba(255, 143, 0, 0.12); color: #FFA000; font-weight: 700; width: 85px; padding: 6px; border-radius: 12px; text-align: center; font-size: 0.85em;">PROCESS</div>
+                        <div style="background-color: {t['bg_tab_active']}; color: {t['text_tab_active']}; font-weight: 700; width: 85px; padding: 6px; border-radius: 0.5rem; text-align: center; font-size: 0.85em;">PROCESS</div>
                         <div style="font-size: 0.9em; color: var(--text-primary);">Data Cleaning & Ratio Calculation → Scikit-learn LinearRegression & Statsmodels OLS Fit</div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="background-color: rgba(0, 200, 83, 0.12); color: #00E676; font-weight: 700; width: 85px; padding: 6px; border-radius: 12px; text-align: center; font-size: 0.85em;">OUTPUT</div>
+                        <div style="background-color: rgba(34, 197, 94, 0.12); color: #22C55E; font-weight: 700; width: 85px; padding: 6px; border-radius: 0.5rem; text-align: center; font-size: 0.85em;">OUTPUT</div>
                         <div style="font-size: 0.9em; color: var(--text-primary);">Predicted student memberships (Y), OLS statistical coefficients, strategy advisory insights</div>
                     </div>
                 </div>
@@ -1147,12 +964,12 @@ else:
             """, unsafe_allow_html=True)
             
             st.markdown("""
-            <div class="m3-card" style="border-left: 6px solid #00C853;">
+            <div class="m3-card" style="border-left: 6px solid #22C55E;">
                 <h4 style="margin-top: 0; color: var(--text-primary); font-family: 'Outfit';">Active Model Performance</h4>
                 <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
             """, unsafe_allow_html=True)
-            st.markdown(m3_metric_card("Model Accuracy (R²)", f"{training_results['r2']:.4f}", "verified", "#00C853", 0.08), unsafe_allow_html=True)
-            st.markdown(m3_metric_card("Average Error (MAE)", f"{training_results['mae']:.1f} students", "bar_chart", "#FFA000", 0.08), unsafe_allow_html=True)
+            st.markdown(m3_metric_card("Model Accuracy (R²)", f"{training_results['r2']:.4f}", "verified", "#10B981", 0.08), unsafe_allow_html=True)
+            st.markdown(m3_metric_card("Average Error (MAE)", f"{training_results['mae']:.1f} students", "bar_chart"), unsafe_allow_html=True)
             st.markdown("</div></div>", unsafe_allow_html=True)
 
     # ------------------------------------------
@@ -1161,7 +978,7 @@ else:
     with tab_explorer:
         st.markdown("""
         <div class="m3-card" style="margin-bottom: 24px;">
-            <h3 style="margin-top: 0; color: #FFA000; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
+            <h3 style="margin-top: 0; color: {t['text_tab_active']}; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
                 <span class="material-symbols-outlined">database</span>
                 Dataset Explorer & Filters
             </h3>
@@ -1203,7 +1020,7 @@ else:
         
         st.markdown("""
         <div class="m3-card" style="margin-top: 24px;">
-            <h4 style="margin-top: 0; color: #FFA000; font-family: 'Outfit';">Descriptive Statistics Summary</h4>
+            <h4 style="margin-top: 0; color: {t['text_tab_active']}; font-family: 'Outfit';">Descriptive Statistics Summary</h4>
         </div>
         """, unsafe_allow_html=True)
         st.dataframe(filtered_df.describe().T, use_container_width=True)
@@ -1214,7 +1031,7 @@ else:
     with tab_eda:
         st.markdown("""
         <div class="m3-card">
-            <h3 style="margin-top: 0; color: #FFA000; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
+            <h3 style="margin-top: 0; color: {t['text_tab_active']}; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
                 <span class="material-symbols-outlined">insights</span>
                 Exploratory Data Analysis
             </h3>
@@ -1252,7 +1069,7 @@ else:
     with tab_model:
         st.markdown("""
         <div class="m3-card">
-            <h3 style="margin-top: 0; color: #FFA000; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
+            <h3 style="margin-top: 0; color: {t['text_tab_active']}; font-family: 'Outfit'; display: flex; align-items: center; gap: 8px;">
                 <span class="material-symbols-outlined">query_stats</span>
                 Regression Equation & Statistical Significance
             </h3>
@@ -1261,42 +1078,36 @@ else:
         """, unsafe_allow_html=True)
         
         # Model formula
-        st.markdown("""
-        <div class="m3-card" style="border-left: 6px solid #FF5722;">
-            <h4 style="margin-top: 0; font-family: 'Outfit'; color: #FFA000; display: flex; align-items: center; gap: 6px;">
+        _intercept = training_results['intercept']
+        _c = training_results['coefficients']
+        st.markdown(f"""
+        <div class="m3-card" style="border-left: 6px solid {t['text_tab_active']};">
+            <h4 style="margin-top: 0; font-family: 'Outfit'; color: {t['text_tab_active']}; display: flex; align-items: center; gap: 6px;">
                 <span class="material-symbols-outlined">calculate</span>
                 Fitted Regression Model Equation (Y)
             </h4>
-            <div style="font-size: 1.15em; font-family: monospace; color: var(--text-primary); padding: 12px; background-color: var(--bg-card-tonal); border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; white-space: nowrap; margin-top: 12px;">
-                Y_pred = {:.2f} 
-                + ({:.4f} × Pop) 
-                + ({:.2f} × PayRatio) 
-                + ({:.2f} × SemInd) 
-                + ({:.4f} × Benefits) 
-                + ({:.2f} × Officers) 
-                + ({:.2f} × Events)
+            <div style="font-size: 1.15em; font-family: monospace; color: var(--text-primary); padding: 12px; background-color: var(--bg-card-tonal); border-radius: 0.5rem; border: 1px solid var(--border-color); overflow-x: auto; white-space: nowrap; margin-top: 12px;">
+                Y_pred = {_intercept:.2f} 
+                + ({_c[0]:.4f} × Pop) 
+                + ({_c[1]:.2f} × PayRatio) 
+                + ({_c[2]:.2f} × SemInd) 
+                + ({_c[3]:.4f} × Benefits) 
+                + ({_c[4]:.2f} × Officers) 
+                + ({_c[5]:.2f} × Events)
             </div>
         </div>
-        """.format(
-            training_results['intercept'],
-            training_results['coefficients'][0],
-            training_results['coefficients'][1],
-            training_results['coefficients'][2],
-            training_results['coefficients'][3],
-            training_results['coefficients'][4],
-            training_results['coefficients'][5]
-        ), unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
         
         # M3 Metric row
         col_m1, col_m2, col_m3 = st.columns(3)
         with col_m1:
             r2_val = training_results['r2']
-            r2_color = "#00C853" if r2_val >= 0.85 else "#FFA000"
+            r2_color = "#22C55E" if r2_val >= 0.85 else t['text_tab_active']
             st.markdown(m3_metric_card("R² Score (Model Fit)", f"{r2_val:.4f}", "verified", r2_color), unsafe_allow_html=True)
         with col_m2:
-            st.markdown(m3_metric_card("Mean Absolute Error (MAE)", f"{training_results['mae']:.2f}", "error", "#FF5722"), unsafe_allow_html=True)
+            st.markdown(m3_metric_card("Mean Absolute Error (MAE)", f"{training_results['mae']:.2f}", "error"), unsafe_allow_html=True)
         with col_m3:
-            st.markdown(m3_metric_card("Root Mean Squared Error (RMSE)", f"{training_results['rmse']:.2f}", "analytics", "#FFE082"), unsafe_allow_html=True)
+            st.markdown(m3_metric_card("Root Mean Squared Error (RMSE)", f"{training_results['rmse']:.2f}", "analytics"), unsafe_allow_html=True)
             
         col_stats, col_residual = st.columns([13, 10])
         
@@ -1304,7 +1115,7 @@ else:
             st.html("""
             <div style="margin-top: 16px; margin-bottom: 8px;">
                 <h4 style="margin: 0; font-family: 'Outfit'; display: flex; align-items: center; gap: 6px;">
-                    <span class="material-symbols-outlined" style="color: #FFA000;">table_chart</span>
+                    <span class="material-symbols-outlined" style="color: {t['text_tab_active']};">table_chart</span>
                     Coefficients & Statistical Significance (RQ2)
                 </h4>
             </div>
@@ -1324,7 +1135,7 @@ else:
             st.html("""
             <div style="margin-top: 16px; margin-bottom: 8px;">
                 <h4 style="margin: 0; font-family: 'Outfit'; display: flex; align-items: center; gap: 6px;">
-                    <span class="material-symbols-outlined" style="color: #FFA000;">scatter_plot</span>
+                    <span class="material-symbols-outlined" style="color: {t['text_tab_active']};">scatter_plot</span>
                     Residual Analysis
                 </h4>
             </div>
@@ -1348,8 +1159,8 @@ else:
         with col_inputs:
             st.markdown("""
             <div style='margin-bottom: 16px; display: flex; align-items: center; gap: 8px;'>
-                <span class="material-symbols-outlined" style="color: #FFA000; font-size: 26px;">tune</span>
-                <h4 style='margin: 0; font-family: Outfit; color: #FFA000;'>Adjust Simulation Inputs</h4>
+                <span class="material-symbols-outlined" style="color: {t['text_tab_active']}; font-size: 26px;">tune</span>
+                <h4 style='margin: 0; font-family: Outfit; color: {t['text_tab_active']}'>Adjust Simulation Inputs</h4>
             </div>
             """, unsafe_allow_html=True)
             
@@ -1360,23 +1171,23 @@ else:
             avg_events = int(df['events_held'].mean())
             
             st.markdown("""
-            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 20px; border: 1px solid var(--border-color); margin-bottom: 20px;">
-                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit';">👥 1. Program Demographics</h5>
+            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 0.5rem; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit'; display: flex; align-items: center; gap: 6px;"><span class="material-symbols-outlined" style="font-size: 22px;">group</span>1. Program Demographics</h5>
             """, unsafe_allow_html=True)
             population = st.slider("Enrolled Program Population ($X_1$):", min_value=10, max_value=1200, value=avg_pop, step=10)
             st.markdown("</div>", unsafe_allow_html=True)
             
             st.markdown("""
-            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 20px; border: 1px solid var(--border-color); margin-bottom: 20px;">
-                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit';">💳 2. Collection Modality & Calendar</h5>
+            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 0.5rem; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit'; display: flex; align-items: center; gap: 6px;"><span class="material-symbols-outlined" style="font-size: 22px;">credit_card</span>2. Collection Modality & Calendar</h5>
             """, unsafe_allow_html=True)
             payment_ratio = st.slider("Online Payment Ratio ($X_2$):", min_value=0.0, max_value=1.0, value=avg_ratio, step=0.05, help="Proportion of payments collected via GCash/PayMaya versus Cash.")
             semester = st.radio("Academic Term ($X_3$):", options=["1st Semester (High Activity)", "2nd Semester (Low Activity)"], index=0, horizontal=True)
             st.markdown("</div>", unsafe_allow_html=True)
             
             st.markdown("""
-            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 20px; border: 1px solid var(--border-color);">
-                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit';">🎗️ 3. Engagement & Outreach Features</h5>
+            <div style="background-color: var(--bg-card-tonal); padding: 18px; border-radius: 0.5rem; border: 1px solid var(--border-color);">
+                <h5 style="margin-top: 0; margin-bottom: 12px; color: var(--text-glow); font-family: 'Outfit'; display: flex; align-items: center; gap: 6px;"><span class="material-symbols-outlined" style="font-size: 22px;">celebration</span>3. Engagement & Outreach Features</h5>
             """, unsafe_allow_html=True)
             benefits_claimed = st.slider("Benefits Claimed ($X_4$):", min_value=0, max_value=1200, value=min(avg_benefits, 720), step=5)
             
@@ -1390,8 +1201,8 @@ else:
         with col_gauge:
             st.markdown("""
             <div style='margin-bottom: 16px; display: flex; align-items: center; gap: 8px;'>
-                <span class="material-symbols-outlined" style="color: #FFA000; font-size: 26px;">analytics</span>
-                <h4 style='margin: 0; font-family: Outfit; color: #FFA000;'>Membership Predictions</h4>
+                <span class="material-symbols-outlined" style="color: {t['text_tab_active']}; font-size: 26px;">analytics</span>
+                <h4 style='margin: 0; font-family: Outfit; color: {t['text_tab_active']}'>Membership Predictions</h4>
             </div>
             """, unsafe_allow_html=True)
             
@@ -1413,13 +1224,13 @@ else:
             collection_rate = (pred_capped / population) * 100 if population > 0 else 0
             
             if collection_rate >= 80:
-                glow_color = "#00C853"
+                glow_color = "#22C55E"
                 status_text = "Optimal Performance"
             elif collection_rate >= 50:
-                glow_color = "#FFA000"
+                glow_color = t['text_tab_active']
                 status_text = "Moderate Performance"
             else:
-                glow_color = "#FF5722"
+                glow_color = "#EF4444"
                 status_text = "Underperforming"
                 
             st.markdown(f"""
@@ -1429,7 +1240,7 @@ else:
                 <h1 style="font-size: 4.8em; font-weight: 800; margin: 12px 0; font-family: 'Outfit', sans-serif;" class="gradient-text">{int(np.round(pred_capped))}</h1>
                 <div style="font-size: 1.2em; font-weight: 700; color: var(--text-glow); display: flex; align-items: center; justify-content: center; gap: 8px;">
                     <span>{collection_rate:.1f}% Collection Rate</span>
-                    <span style="background-color: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 12px; font-size: 0.75em; color: {glow_color}; border: 1px solid {glow_color}33;">{status_text}</span>
+                    <span style="background-color: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 0.5rem; font-size: 0.75em; color: {glow_color}; border: 1px solid {glow_color}33;">{status_text}</span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -1437,9 +1248,9 @@ else:
             if benefits_claimed > population:
                 st.markdown(f"""
                 <div class="m3-alert-warning">
-                    <span class="material-symbols-outlined" style="color: #FF9100; margin-top: 2px;">warning</span>
+                    <span class="material-symbols-outlined" style="color: #F97316; margin-top: 2px;">warning</span>
                     <div>
-                        <strong style="color: #FF9100; font-family: 'Outfit';">Benefits Exceed Population</strong><br>
+                        <strong style="color: #F97316; font-family: 'Outfit';">Benefits Exceed Population</strong><br>
                         <span style="font-size: 0.9em; color: var(--text-primary);">Benefits claimed ({benefits_claimed}) cannot exceed total enrolled population ({population}). Capping benefits to {population} for the simulation model.</span>
                     </div>
                 </div>
@@ -1449,9 +1260,9 @@ else:
                 if pred_val < 0:
                     st.markdown(f"""
                     <div class="m3-alert-warning">
-                        <span class="material-symbols-outlined" style="color: #FF3D00; margin-top: 2px;">warning</span>
+                        <span class="material-symbols-outlined" style="color: #EF4444; margin-top: 2px;">warning</span>
                         <div>
-                            <strong style="color: #FF3D00; font-family: 'Outfit';">Negative Output Capped</strong><br>
+                            <strong style="color: #EF4444; font-family: 'Outfit';">Negative Output Capped</strong><br>
                             <span style="font-size: 0.9em; color: var(--text-primary);">The raw regression model predicted a negative count ({pred_val:.1f}). This usually indicates highly unfavorable conditions. Capped to 0.</span>
                         </div>
                     </div>
@@ -1459,9 +1270,9 @@ else:
                 elif pred_val > population:
                     st.markdown(f"""
                     <div class="m3-alert-warning">
-                        <span class="material-symbols-outlined" style="color: #FF3D00; margin-top: 2px;">warning</span>
+                        <span class="material-symbols-outlined" style="color: #EF4444; margin-top: 2px;">warning</span>
                         <div>
-                            <strong style="color: #FF3D00; font-family: 'Outfit';">Exceeded Enrollment Limit</strong><br>
+                            <strong style="color: #EF4444; font-family: 'Outfit';">Exceeded Enrollment Limit</strong><br>
                             <span style="font-size: 0.9em; color: var(--text-primary);">The raw model predicted {pred_val:.1f} payments, exceeding total enrollment ({population}). Capped to population limit.</span>
                         </div>
                     </div>
@@ -1470,9 +1281,9 @@ else:
             if benefits_claimed_model > pred_capped:
                 st.markdown(f"""
                 <div class="m3-alert-warning">
-                    <span class="material-symbols-outlined" style="color: #FF3D00; margin-top: 2px;">error</span>
+                    <span class="material-symbols-outlined" style="color: #EF4444; margin-top: 2px;">error</span>
                     <div>
-                        <strong style="color: #FF3D00; font-family: 'Outfit';">Consistency Conflict</strong><br>
+                        <strong style="color: #EF4444; font-family: 'Outfit';">Consistency Conflict</strong><br>
                         <span style="font-size: 0.9em; color: var(--text-primary);">Benefits claimed ({benefits_claimed_model}) exceed predicted paying members ({int(np.round(pred_capped))}). Paid membership is typically required to claim council benefits.</span>
                     </div>
                 </div>
@@ -1480,7 +1291,7 @@ else:
                 
             st.markdown(f"""
             <div class="m3-card-tonal">
-                <h4 style="margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: #FFA000; font-family: 'Outfit';">
+                <h4 style="margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: {t['text_tab_active']}; font-family: 'Outfit';">
                     <span class="material-symbols-outlined">lightbulb</span>
                     Council Strategy Advisor
                 </h4>
