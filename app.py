@@ -3,12 +3,32 @@ import pandas as pd
 import numpy as np
 import os
 import pickle
-import matplotlib.pyplot as plt
-import seaborn as sns
+import streamlit.components.v1 as components
 import statsmodels.api as sm
 import base64
 from src.preprocess import preprocess_data
 from src.train import train_model
+
+
+def st_echarts(options, height=520):
+    import json
+    import uuid
+    uid = "ech" + uuid.uuid4().hex[:8]
+    options_json = json.dumps(options)
+    html = f"""<div id="{uid}" style="position:relative;width:100%;height:{height}px" onmouseenter="document.getElementById('{uid}_btn').style.opacity='1'" onmouseleave="document.getElementById('{uid}_btn').style.opacity='0'">
+<div id="{uid}_chart" style="width:100%;height:100%"></div>
+<button id="{uid}_btn" onclick="(function(){{var el=document.getElementById('{uid}');if(!document.fullscreenElement){{el.requestFullscreen?.()}}else{{document.exitFullscreen?.()}}}})()"
+style="position:absolute;top:4px;right:4px;z-index:10;background:rgba(30,41,59,0.8);border:none;border-radius:6px;cursor:pointer;padding:4px;line-height:1;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s" title="Fullscreen">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+</button></div>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<script>
+var c=echarts.init(document.getElementById('{uid}_chart'));
+c.setOption({options_json});
+window.addEventListener('resize',function(){{c.resize();}});
+</script>"""
+    components.html(html, height=height)
+
 
 # Page configuration
 st.set_page_config(
@@ -55,20 +75,6 @@ THEMES = {
 }
 
 t = THEMES["dark"]
-
-plt.style.use("dark_background")
-
-plt.rcParams.update({
-    "figure.facecolor": t["chart_bg"],
-    "axes.facecolor": t["chart_axes_bg"],
-    "savefig.facecolor": t["chart_bg"],
-    "text.color": t["chart_text"],
-    "axes.labelcolor": t["chart_label"],
-    "xtick.color": t["chart_label"],
-    "ytick.color": t["chart_label"],
-    "grid.color": t["chart_grid"],
-    "font.family": "sans-serif"
-})
 
 # Custom Styling — Minimal Clean Design
 st.markdown(f"""
@@ -425,202 +431,151 @@ def make_html_coef_table(coef_df):
     html += '</tbody></table>'
     return html
 
-# Matplotlib high-fidelity charting helpers
+# ECharts interactive chart helpers
+def _echarts_base(title, x_name=None, y_name=None, height=520):
+    return {
+        "backgroundColor": t['chart_bg'],
+        "title": {
+            "text": title, "left": "center", "top": 0,
+            "textStyle": {"color": t['chart_text'], "fontSize": 13, "fontWeight": "bold"},
+        },
+        "tooltip": {
+            "backgroundColor": t['chart_legend_bg'],
+            "borderColor": "transparent",
+            "textStyle": {"color": t['chart_text'], "fontSize": 13},
+            "extraCssText": "border-radius: 10px; box-shadow: none;",
+        },
+        "legend": {
+            "textStyle": {"color": t['chart_text']},
+            "top": 30,
+        },
+        "grid": {"left": 50, "right": 16, "top": 60, "bottom": 36, "containLabel": True},
+        "xAxis": {
+            "name": x_name,
+            "nameTextStyle": {"color": t['chart_label'], "fontSize": 10},
+            "axisLabel": {"color": t['chart_label'], "fontSize": 9},
+            "axisLine": {"show": False},
+            "splitLine": {"lineStyle": {"color": t['chart_grid'], "width": 0.5}},
+        },
+        "yAxis": {
+            "name": y_name,
+            "nameTextStyle": {"color": t['chart_label'], "fontSize": 10},
+            "axisLabel": {"color": t['chart_label'], "fontSize": 9},
+            "axisLine": {"show": False},
+            "splitLine": {"lineStyle": {"color": t['chart_grid'], "width": 0.5}},
+        },
+    }
+
 def plot_correlation_heatmap(df):
-    fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
-    fig.patch.set_facecolor(t["chart_bg"])
-    ax.set_facecolor(t["chart_axes_bg"])
-    
     numeric_df = df.select_dtypes(include=[np.number])
     corr_cols = ['population', 'payment_ratio', 'semester_indicator', 'benefits_claimed', 'officer_count', 'events_held', 'paid_memberships']
     corr_cols = [c for c in corr_cols if c in numeric_df.columns]
     corr = numeric_df[corr_cols].corr()
-    
-    from matplotlib.colors import LinearSegmentedColormap
-    colors = t["heatmap_colors"]
-    custom_cmap = LinearSegmentedColormap.from_list("ceitsc_cmap", colors)
-    
-    sns.heatmap(
-        corr, 
-        annot=True, 
-        fmt=".2f", 
-        cmap=custom_cmap, 
-        ax=ax, 
-        cbar=False,
-        annot_kws={"size": 9, "weight": "bold"}
-    )
-    
-    ax.tick_params(colors=t["chart_label"], labelsize=8.5)
-    ticks_x = [tick.get_text().replace('_', ' ').title() for tick in ax.get_xticklabels()]
-    ticks_y = [tick.get_text().replace('_', ' ').title() for tick in ax.get_yticklabels()]
-    ax.set_xticklabels(ticks_x, rotation=45, ha='right')
-    ax.set_yticklabels(ticks_y, rotation=0)
-    
-    ax.title.set_color(t["chart_text"])
-    plt.title("Correlation Matrix of Numeric Features", fontsize=11, fontweight='600', pad=12)
-    plt.tight_layout()
-    return fig
+    labels = [c.replace('_', ' ').title() for c in corr.columns]
+    n = len(labels)
+
+    opts = _echarts_base('Correlation Matrix of Numeric Features')
+    data = [[j, i, round(corr.values[i][j], 2)] for i in range(n) for j in range(n)]
+    opts["xAxis"] = {"type": "category", "data": labels, "axisLabel": {"rotate": 45, "color": t['chart_label'], "fontSize": 9}, "splitLine": {"show": False}}
+    opts["yAxis"] = {"type": "category", "data": labels, "axisLabel": {"color": t['chart_label'], "fontSize": 9}, "splitLine": {"show": False}}
+    opts["series"] = [{
+        "type": "heatmap", "data": data,
+        "label": {"show": True, "color": t['chart_text'], "fontSize": 9, "fontWeight": "bold", "formatter": "{c}"},
+        "emphasis": {"itemStyle": {"shadowBlur": 10, "shadowColor": "rgba(0,0,0,0.5)"}},
+    }]
+    opts["visualMap"] = {"show": False, "min": -1, "max": 1, "inRange": {"color": t['heatmap_colors']}}
+    opts["tooltip"]["trigger"] = "item"
+    return opts
 
 def plot_scatter_population_memberships(df):
-    fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
-    fig.patch.set_facecolor(t["chart_bg"])
-    ax.set_facecolor(t["chart_axes_bg"])
-    
-    programs = df['program'].unique()
     color_map = {
-        'BSCS': '#F97316',
-        'BSIT': '#3B82F6',
-        'BSCE': '#10B981',
-        'BSEE': '#8B5CF6',
-        'BSAE': '#EC4899',
-        'BSAB': '#94A3B8'
+        'BSCS': '#F97316', 'BSIT': '#3B82F6', 'BSCE': '#10B981',
+        'BSEE': '#8B5CF6', 'BSAE': '#EC4899', 'BSAB': '#94A3B8'
     }
-    
-    for prog in programs:
-        prog_data = df[df['program'] == prog]
-        ax.scatter(
-            prog_data['population'], 
-            prog_data['paid_memberships'], 
-            color=color_map.get(prog, t['text_tab_active']), 
-            label=prog, 
-            s=65, 
-            edgecolors=t["chart_bg"], 
-            linewidths=0.8,
-            alpha=0.85
-        )
-        
+
     x_line = np.linspace(df['population'].min(), df['population'].max(), 100)
     coef = np.polyfit(df['population'], df['paid_memberships'], 1)
     poly1d_fn = np.poly1d(coef)
-    ax.plot(x_line, poly1d_fn(x_line), color=t["text_tab_active"], linestyle='--', linewidth=1.5, alpha=0.6, label='Trendline')
-    
-    ax.tick_params(colors=t["chart_label"], labelsize=8.5)
-    ax.xaxis.label.set_color(t["chart_label"])
-    ax.yaxis.label.set_color(t["chart_label"])
-    ax.title.set_color(t["chart_text"])
-    
-    ax.set_xlabel('Total Program Population', fontsize=9.5)
-    ax.set_ylabel('Paid Memberships', fontsize=9.5)
-    ax.set_title('Program Population vs. Paid Memberships', fontsize=11, fontweight='600')
-    
-    for spine in ax.spines.values():
-        spine.set_color(t["chart_spine"])
-        
-    ax.grid(True, color=t['chart_label'], alpha=0.1, linestyle=':')
-    ax.legend(facecolor=t["chart_legend_bg"], edgecolor=t["chart_legend_border"], labelcolor=t["chart_text"], fontsize=8.5)
-    plt.tight_layout()
-    return fig
+    trend_data = [[round(x, 1), round(poly1d_fn(x), 2)] for x in x_line]
+
+    series = []
+    for prog in df['program'].unique():
+        prog_data = df[df['program'] == prog][['population', 'paid_memberships']].values.tolist()
+        series.append({
+            "type": "scatter", "name": prog, "data": prog_data,
+            "symbolSize": 7,
+            "itemStyle": {"color": color_map.get(prog, t['text_tab_active'])},
+        })
+
+    series.append({
+        "type": "line", "name": "Trendline", "data": trend_data,
+        "symbol": "none", "smooth": True,
+        "lineStyle": {"color": t['text_tab_active'], "width": 1.5, "type": "dashed"},
+    })
+
+    opts = _echarts_base('Program Population vs. Paid Memberships', x_name='Total Program Population', y_name='Paid Memberships')
+    opts["xAxis"]["type"] = "value"
+    opts["yAxis"]["type"] = "value"
+    opts["series"] = series
+    opts["tooltip"]["trigger"] = "item"
+    opts["tooltip"]["formatter"] = "{b}: ({c})"
+    return opts
 
 def plot_avg_memberships_program(df):
-    fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
-    fig.patch.set_facecolor(t["chart_bg"])
-    ax.set_facecolor(t["chart_axes_bg"])
-    
     avg_paid = df.groupby('program')['paid_memberships'].mean().reset_index()
     avg_paid = avg_paid.sort_values(by='paid_memberships', ascending=False)
-    
-    bar_colors = [
-        '#F97316', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#94A3B8'
-    ][:len(avg_paid)]
-    
-    bars = ax.bar(avg_paid['program'], avg_paid['paid_memberships'], color=bar_colors, edgecolor='none', width=0.55, alpha=0.9)
-    
-    for bar in bars:
-        height = bar.get_height()
-        ax.annotate(f'{height:.1f}',
-                    xy=(bar.get_x() + bar.get_width() / 2, height),
-                    xytext=(0, 3),  
-                    textcoords="offset points",
-                    ha='center', va='bottom', fontsize=8, color=t["chart_text"], weight='bold')
-                    
-    ax.tick_params(colors=t["chart_label"], labelsize=8.5)
-    ax.yaxis.label.set_color(t["chart_label"])
-    ax.title.set_color(t["chart_text"])
-    
-    ax.set_ylabel('Average Paid Memberships', fontsize=9.5)
-    ax.set_title('Average Paid Memberships by Degree Program', fontsize=11, fontweight='600')
-    
-    for spine in ax.spines.values():
-        spine.set_color(t["chart_spine"])
-        
-    ax.grid(True, color=t['chart_label'], alpha=0.1, linestyle=':', axis='y')
-    plt.tight_layout()
-    return fig
+    bar_colors = ['#F97316', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#94A3B8'][:len(avg_paid)]
+
+    data = [{"value": round(v, 1), "itemStyle": {"color": c}} for v, c in zip(avg_paid['paid_memberships'], bar_colors)]
+
+    opts = _echarts_base('Average Paid Memberships by Degree Program', y_name='Average Paid Memberships')
+    opts["xAxis"] = {"type": "category", "data": avg_paid['program'].tolist(), "axisLabel": {"color": t['chart_label'], "fontSize": 9}, "axisLine": {"show": False}}
+    opts["series"] = [{
+        "type": "bar", "data": data, "barWidth": "55%",
+        "label": {"show": True, "position": "top", "color": t['chart_text'], "fontSize": 9, "fontWeight": "bold", "formatter": "{c}"},
+    }]
+    return opts
 
 def plot_membership_trend(df):
-    fig, ax = plt.subplots(figsize=(6, 4.8), dpi=100)
-    fig.patch.set_facecolor(t["chart_bg"])
-    ax.set_facecolor(t["chart_axes_bg"])
-    
     df_copy = df.copy()
-    df_copy['period'] = df_copy['academic_year'] + " \n" + df_copy['semester']
+    df_copy['period'] = df_copy['academic_year'] + ' ' + df_copy['semester']
     avg_trend = df_copy.groupby('period')['paid_memberships'].sum().reset_index()
     avg_trend = avg_trend.sort_values(by='period')
-    
-    ax.plot(
-        avg_trend['period'], 
-        avg_trend['paid_memberships'], 
-        color='#F97316', 
-        marker='o', 
-        markersize=6, 
-        linewidth=2, 
-        markerfacecolor='#FED7AA', 
-        markeredgecolor='#EA580C', 
-        label='Total Memberships'
-    )
-    
-    ax.fill_between(
-        avg_trend['period'], 
-        avg_trend['paid_memberships'], 
-        color='#F97316', 
-        alpha=0.12
-    )
-    
-    for x, y in zip(avg_trend['period'], avg_trend['paid_memberships']):
-        ax.annotate(f'{int(y)}',
-                    xy=(x, y),
-                    xytext=(0, 6),
-                    textcoords="offset points",
-                    ha='center', va='bottom', fontsize=8, color=t["chart_text"], weight='bold')
-                    
-    ax.tick_params(colors=t["chart_label"], labelsize=8)
-    ax.yaxis.label.set_color(t["chart_label"])
-    ax.title.set_color(t["chart_text"])
-    
-    ax.set_ylabel('Total Paid Memberships', fontsize=9.5)
-    ax.set_title('Council Membership Trend Over Semesters', fontsize=11, fontweight='600')
-    
-    for spine in ax.spines.values():
-        spine.set_color(t["chart_spine"])
-        
-    ax.grid(True, color=t['chart_label'], alpha=0.05, linestyle=':')
-    plt.tight_layout()
-    return fig
+
+    opts = _echarts_base('Council Membership Trend Over Semesters', y_name='Total Paid Memberships')
+    opts["xAxis"] = {"type": "category", "data": avg_trend['period'].tolist(), "axisLabel": {"color": t['chart_label'], "fontSize": 8, "rotate": 15}, "axisLine": {"show": False}}
+    opts["series"] = [{
+        "type": "line", "data": [int(v) for v in avg_trend['paid_memberships'].tolist()],
+        "symbol": "circle", "symbolSize": 7,
+        "lineStyle": {"color": "#F97316", "width": 2},
+        "itemStyle": {"color": "#FED7AA", "borderColor": "#EA580C", "borderWidth": 1.5},
+        "areaStyle": {"color": "rgba(249,115,22,0.12)"},
+        "label": {"show": True, "position": "top", "color": t['chart_text'], "fontSize": 9, "fontWeight": "bold"},
+    }]
+    return opts
 
 def plot_residual_chart(y_test, y_pred):
-    fig, ax = plt.subplots(figsize=(5, 4.2), dpi=100)
-    fig.patch.set_facecolor(t["chart_bg"])
-    ax.set_facecolor(t["chart_axes_bg"])
-    
-    ax.scatter(y_test, y_pred, color='#F97316', edgecolors='#EA580C', s=55, alpha=0.85, label='Actual Data')
-    ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color=t["text_glow"], linestyle='--', linewidth=2, label='Perfect Fit')
-    
-    ax.tick_params(colors=t["chart_label"], labelsize=9)
-    ax.xaxis.label.set_color(t["chart_label"])
-    ax.yaxis.label.set_color(t["chart_label"])
-    ax.title.set_color(t["chart_text"])
-    
-    ax.set_xlabel('Actual Paid Memberships', fontsize=10, fontweight='500')
-    ax.set_ylabel('Predicted Paid Memberships', fontsize=10, fontweight='500')
-    ax.set_title('Model Residual Plot (Actual vs. Predicted)', fontsize=11, fontweight='600')
-    
-    for spine in ax.spines.values():
-        spine.set_color(t["chart_spine"])
-        
-    ax.grid(True, color=t['chart_label'], alpha=0.06, linestyle=':')
-    ax.legend(facecolor=t["chart_legend_bg"], edgecolor=t["chart_legend_border"], labelcolor=t["chart_text"], fontsize=9)
-    plt.tight_layout()
-    return fig
+    data = [[float(x), float(y)] for x, y in zip(y_test, y_pred)]
+    min_val = float(min(y_test.min(), y_pred.min()))
+    max_val = float(max(y_test.max(), y_pred.max()))
+
+    opts = _echarts_base('Model Residual Plot (Actual vs. Predicted)', x_name='Actual Paid Memberships', y_name='Predicted Paid Memberships')
+    opts["xAxis"]["type"] = "value"
+    opts["yAxis"]["type"] = "value"
+    opts["tooltip"]["trigger"] = "item"
+    opts["series"] = [
+        {
+            "type": "scatter", "name": "Actual Data", "data": data,
+            "symbolSize": 7,
+            "itemStyle": {"color": "#F97316", "borderColor": "#EA580C", "borderWidth": 1},
+        },
+        {
+            "type": "line", "name": "Perfect Fit", "data": [[min_val, min_val], [max_val, max_val]],
+            "symbol": "none",
+            "lineStyle": {"color": t['text_glow'], "width": 2, "type": "dashed"},
+        },
+    ]
+    return opts
 
 # Define paths
 RAW_DATA_PATH = "data/ceitsc_raw.csv"
@@ -1043,24 +998,24 @@ else:
         
         with col_chart1:
             fig1 = plot_correlation_heatmap(df)
-            st.pyplot(fig1)
+            st_echarts(fig1)
             st.caption("Correlation Heatmap: Identifies linear association strengths (close to 1.00 is high correlation) between student statistics and collections.")
             
         with col_chart2:
             fig2 = plot_scatter_population_memberships(df)
-            st.pyplot(fig2)
+            st_echarts(fig2)
             st.caption("Scatter Plot: Displays the relationship between student enrollment counts and paid memberships by program, along with overall linear fit.")
             
         col_chart3, col_chart4 = st.columns(2)
         
         with col_chart3:
             fig3 = plot_avg_memberships_program(df)
-            st.pyplot(fig3)
+            st_echarts(fig3)
             st.caption("Bar Chart: Illustrates the average number of paid student memberships generated by each department program over historical semesters.")
             
         with col_chart4:
             fig4 = plot_membership_trend(df)
-            st.pyplot(fig4)
+            st_echarts(fig4)
             st.caption("Line Chart: Highlights the aggregate sum of student memberships collected per academic period across the main campus.")
 
     # ------------------------------------------
@@ -1148,7 +1103,7 @@ else:
             y_pred = sklearn_model.predict(X_test)
             
             fig_resid = plot_residual_chart(y_test, y_pred)
-            st.pyplot(fig_resid)
+            st_echarts(fig_resid)
 
     # ------------------------------------------
     # TAB 5: PREDICTOR PLAYGROUND

@@ -8,7 +8,7 @@ The system trains a regression model on 6 input features (population, payment ra
 
 * **ML Regression Model:** scikit-learn `LinearRegression` trained on historical enrollment and collection data.
 * **Statistical Analysis:** Statsmodels `OLS` produces p-values, coefficients, and significance metrics for each feature.
-* **Interactive EDA:** Correlation heatmaps, scatter plots, trend lines, and bar charts with Matplotlib.
+* **Interactive EDA:** Correlation heatmaps, scatter plots, trend lines, and bar charts with interactive ECharts.
 * **Data Explorer:** Filterable table view of raw and cleaned datasets with CSV export.
 * **Predictor Playground:** Adjust 6 input variables via sliders/radios and see instant prediction results.
 * **Dark Slate + Orange Theme:** Professional dark-mode UI with glassmorphism cards, hover animations, and Material Symbols Outlined icons.
@@ -91,7 +91,7 @@ python src/train.py
 ### 3. Start the Streamlit App
 Launches the interactive dashboard locally.
 ```bash
-streamlit run app.py
+uv run streamlit run app.py
 ```
 App runs at `http://localhost:8501`.
 
@@ -132,8 +132,6 @@ $$Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3X_3 + \beta_4X_4 + \beta_5X_5 +
 * `numpy>=1.24.0`
 * `scikit-learn>=1.2.0`
 * `statsmodels>=0.14.0`
-* `matplotlib>=3.7.0`
-* `seaborn>=0.12.0`
 
 ## License
 
