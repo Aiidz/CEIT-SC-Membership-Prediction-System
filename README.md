@@ -50,7 +50,7 @@ ceitsc-membership-prediction/
 
 ```bash
 git clone https://github.com/Aiidz/CEIT-SC-Membership-Prediction-System.git
-cd ceitsc-membership-prediction
+cd CEIT-SC-Membership-Prediction-System
 ```
 
 ### 2. Set up the Python virtual environment
