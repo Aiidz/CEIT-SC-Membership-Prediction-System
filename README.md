@@ -49,7 +49,7 @@ ceitsc-membership-prediction/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/ceitsc-membership-prediction.git
+git clone https://github.com/Aiidz/CEIT-SC-Membership-Prediction-System.git
 cd ceitsc-membership-prediction
 ```
 
