@@ -437,30 +437,30 @@ def _echarts_base(title, x_name=None, y_name=None, height=520):
         "backgroundColor": t['chart_bg'],
         "title": {
             "text": title, "left": "center", "top": 0,
-            "textStyle": {"color": t['chart_text'], "fontSize": 13, "fontWeight": "bold"},
+            "textStyle": {"color": t['chart_text'], "fontSize": 15, "fontWeight": "bold"},
         },
         "tooltip": {
             "backgroundColor": t['chart_legend_bg'],
             "borderColor": "transparent",
-            "textStyle": {"color": t['chart_text'], "fontSize": 13},
+            "textStyle": {"color": t['chart_text'], "fontSize": 14},
             "extraCssText": "border-radius: 10px; box-shadow: none;",
         },
         "legend": {
-            "textStyle": {"color": t['chart_text']},
+            "textStyle": {"color": t['chart_text'], "fontSize": 12},
             "top": 30,
         },
         "grid": {"left": 50, "right": 16, "top": 60, "bottom": 36, "containLabel": True},
         "xAxis": {
             "name": x_name,
-            "nameTextStyle": {"color": t['chart_label'], "fontSize": 10},
-            "axisLabel": {"color": t['chart_label'], "fontSize": 9},
+            "nameTextStyle": {"color": t['chart_label'], "fontSize": 12},
+            "axisLabel": {"color": t['chart_label'], "fontSize": 11},
             "axisLine": {"show": False},
             "splitLine": {"lineStyle": {"color": t['chart_grid'], "width": 0.5}},
         },
         "yAxis": {
             "name": y_name,
-            "nameTextStyle": {"color": t['chart_label'], "fontSize": 10},
-            "axisLabel": {"color": t['chart_label'], "fontSize": 9},
+            "nameTextStyle": {"color": t['chart_label'], "fontSize": 12},
+            "axisLabel": {"color": t['chart_label'], "fontSize": 11},
             "axisLine": {"show": False},
             "splitLine": {"lineStyle": {"color": t['chart_grid'], "width": 0.5}},
         },
@@ -476,11 +476,11 @@ def plot_correlation_heatmap(df):
 
     opts = _echarts_base('Correlation Matrix of Numeric Features')
     data = [[j, i, round(corr.values[i][j], 2)] for i in range(n) for j in range(n)]
-    opts["xAxis"] = {"type": "category", "data": labels, "axisLabel": {"rotate": 45, "color": t['chart_label'], "fontSize": 9}, "splitLine": {"show": False}}
-    opts["yAxis"] = {"type": "category", "data": labels, "axisLabel": {"color": t['chart_label'], "fontSize": 9}, "splitLine": {"show": False}}
+    opts["xAxis"] = {"type": "category", "data": labels, "axisLabel": {"rotate": 45, "color": t['chart_label'], "fontSize": 11}, "splitLine": {"show": False}}
+    opts["yAxis"] = {"type": "category", "data": labels, "axisLabel": {"color": t['chart_label'], "fontSize": 11}, "splitLine": {"show": False}}
     opts["series"] = [{
         "type": "heatmap", "data": data,
-        "label": {"show": True, "color": t['chart_text'], "fontSize": 9, "fontWeight": "bold", "formatter": "{c}"},
+        "label": {"show": True, "color": t['chart_text'], "fontSize": 11, "fontWeight": "bold", "formatter": "{c}"},
         "emphasis": {"itemStyle": {"shadowBlur": 10, "shadowColor": "rgba(0,0,0,0.5)"}},
     }]
     opts["visualMap"] = {"show": False, "min": -1, "max": 1, "inRange": {"color": t['heatmap_colors']}}
@@ -519,7 +519,7 @@ def plot_scatter_population_memberships(df):
     opts["series"] = series
     opts["tooltip"]["trigger"] = "item"
     opts["tooltip"]["formatter"] = "{b}: ({c})"
-    opts["legend"] = {"orient": "vertical", "right": 0, "top": "middle", "textStyle": {"color": t['chart_text']}}
+    opts["legend"] = {"orient": "vertical", "right": 0, "top": "middle", "textStyle": {"color": t['chart_text'], "fontSize": 12}}
     return opts
 
 def plot_avg_memberships_program(df):
@@ -530,10 +530,10 @@ def plot_avg_memberships_program(df):
     data = [{"value": round(v, 1), "itemStyle": {"color": c}} for v, c in zip(avg_paid['paid_memberships'], bar_colors)]
 
     opts = _echarts_base('Average Paid Memberships by Degree Program', y_name='Average Paid Memberships')
-    opts["xAxis"] = {"type": "category", "data": avg_paid['program'].tolist(), "axisLabel": {"color": t['chart_label'], "fontSize": 9}, "axisLine": {"show": False}}
+    opts["xAxis"] = {"type": "category", "data": avg_paid['program'].tolist(), "axisLabel": {"color": t['chart_label'], "fontSize": 11}, "axisLine": {"show": False}}
     opts["series"] = [{
         "type": "bar", "data": data, "barWidth": "55%",
-        "label": {"show": True, "position": "top", "color": t['chart_text'], "fontSize": 9, "fontWeight": "bold", "formatter": "{c}"},
+        "label": {"show": True, "position": "top", "color": t['chart_text'], "fontSize": 11, "fontWeight": "bold", "formatter": "{c}"},
     }]
     return opts
 
@@ -544,14 +544,14 @@ def plot_membership_trend(df):
     avg_trend = avg_trend.sort_values(by='period')
 
     opts = _echarts_base('Council Membership Trend Over Semesters', y_name='Total Paid Memberships')
-    opts["xAxis"] = {"type": "category", "data": avg_trend['period'].tolist(), "axisLabel": {"color": t['chart_label'], "fontSize": 8, "rotate": 15}, "axisLine": {"show": False}}
+    opts["xAxis"] = {"type": "category", "data": avg_trend['period'].tolist(), "axisLabel": {"color": t['chart_label'], "fontSize": 10, "rotate": 15}, "axisLine": {"show": False}}
     opts["series"] = [{
         "type": "line", "data": [int(v) for v in avg_trend['paid_memberships'].tolist()],
         "symbol": "circle", "symbolSize": 7,
         "lineStyle": {"color": "#F97316", "width": 2},
         "itemStyle": {"color": "#FED7AA", "borderColor": "#EA580C", "borderWidth": 1.5},
         "areaStyle": {"color": "rgba(249,115,22,0.12)"},
-        "label": {"show": True, "position": "top", "color": t['chart_text'], "fontSize": 9, "fontWeight": "bold"},
+        "label": {"show": True, "position": "top", "color": t['chart_text'], "fontSize": 11, "fontWeight": "bold"},
     }]
     return opts
 
