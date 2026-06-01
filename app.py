@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 import pickle
+import streamlit.components.v1 as components
 import statsmodels.api as sm
 import base64
 from src.preprocess import preprocess_data
@@ -26,7 +27,7 @@ var c=echarts.init(document.getElementById('{uid}_chart'));
 c.setOption({options_json});
 window.addEventListener('resize',function(){{c.resize();}});
 </script>"""
-    st.html(html)
+    components.html(html, height=height)
 
 
 # Page configuration
@@ -518,6 +519,7 @@ def plot_scatter_population_memberships(df):
     opts["series"] = series
     opts["tooltip"]["trigger"] = "item"
     opts["tooltip"]["formatter"] = "{b}: ({c})"
+    opts["legend"] = {"orient": "vertical", "right": 0, "top": "middle", "textStyle": {"color": t['chart_text']}}
     return opts
 
 def plot_avg_memberships_program(df):
@@ -588,7 +590,7 @@ model_exists = os.path.exists(MODEL_PATH) and os.path.exists(CLEAN_DATA_PATH)
 # SIDEBAR NAVIGATION & CONTROLS
 # ==========================================
 if os.path.exists("logo.jpg"):
-    st.sidebar.image("logo.jpg", width='stretch')
+    st.sidebar.image("logo.jpg", use_container_width=True)
 st.sidebar.markdown("<h2 class='gradient-text' style='font-family: Outfit; font-size: 1.55em; margin-bottom: 0px;'>CEIT-SC ML System</h2>", unsafe_allow_html=True)
 st.sidebar.caption("Cavite State University — Main Campus")
 
@@ -970,14 +972,14 @@ else:
                 mime="text/csv"
             )
             
-        st.dataframe(filtered_df, width='stretch')
+        st.dataframe(filtered_df, use_container_width=True)
         
         st.markdown("""
         <div class="m3-card" style="margin-top: 24px;">
             <h4 style="margin-top: 0; color: {t['text_tab_active']}; font-family: 'Outfit';">Descriptive Statistics Summary</h4>
         </div>
         """, unsafe_allow_html=True)
-        st.dataframe(filtered_df.describe().T, width='stretch')
+        st.dataframe(filtered_df.describe().T, use_container_width=True)
 
     # ------------------------------------------
     # TAB 3: EDA DASHBOARD
