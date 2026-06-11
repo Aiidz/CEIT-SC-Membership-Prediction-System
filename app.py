@@ -30,7 +30,6 @@ window.addEventListener('resize',function(){{c.resize();}});
     components.html(html, height=height)
 
 
-# Page configuration
 st.set_page_config(
     page_title="CEIT-SC Membership Predictor",
     page_icon="logo.jpg" if os.path.exists("logo.jpg") else "🎓",
@@ -38,7 +37,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Theme Configuration and Styling (Material 3 Dynamic Theme System)
 THEMES = {
     "dark": {
         "bg_app": "#0F172A",
@@ -76,7 +74,6 @@ THEMES = {
 
 t = THEMES["dark"]
 
-# Custom Styling — Minimal Clean Design
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
@@ -365,7 +362,6 @@ h1, h2, h3, h4, h5, h6 {{
 </style>
 """, unsafe_allow_html=True)
 
-# Helper functions for UI
 def get_base64_image(image_path):
     if os.path.exists(image_path):
         with open(image_path, "rb") as image_file:
@@ -431,7 +427,6 @@ def make_html_coef_table(coef_df):
     html += '</tbody></table>'
     return html
 
-# ECharts interactive chart helpers
 def _echarts_base(title, x_name=None, y_name=None, height=520):
     return {
         "backgroundColor": t['chart_bg'],
@@ -578,17 +573,12 @@ def plot_residual_chart(y_test, y_pred):
     ]
     return opts
 
-# Define paths
 RAW_DATA_PATH = "data/ceitsc_raw.csv"
 CLEAN_DATA_PATH = "data/ceitsc_cleaned.csv"
 MODEL_PATH = "models/ceitsc_model.pkl"
 
-# Check if model exists
 model_exists = os.path.exists(MODEL_PATH) and os.path.exists(CLEAN_DATA_PATH)
 
-# ==========================================
-# SIDEBAR NAVIGATION & CONTROLS
-# ==========================================
 if os.path.exists("logo.jpg"):
     st.sidebar.image("logo.jpg", use_container_width=True)
 st.sidebar.markdown("<h2 class='gradient-text' style='font-family: Outfit; font-size: 1.55em; margin-bottom: 0px;'>CEIT-SC ML System</h2>", unsafe_allow_html=True)
@@ -610,7 +600,6 @@ if model_exists:
     </div>
     """, unsafe_allow_html=True)
     
-    # Reset button in sidebar
     if st.sidebar.button("🗑️ Reset System & Retrain"):
         if os.path.exists(MODEL_PATH):
             os.remove(MODEL_PATH)
@@ -629,9 +618,6 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# ==========================================
-# ONBOARDING SETUP WIZARD (No Model Found)
-# ==========================================
 if not model_exists:
     logo_base64 = get_base64_image("logo.jpg")
     
@@ -795,9 +781,6 @@ if not model_exists:
             st.error(f"Error during initialization: {str(e)}")
             st.warning("Please ensure your CSV matches the required columns listed above.")
 
-# ==========================================
-# ACTIVE DASHBOARD (Model Found)
-# ==========================================
 else:
     @st.cache_data
     def load_data():
@@ -828,7 +811,6 @@ else:
     </div>
     """, unsafe_allow_html=True)
     
-    # M3 Pill Navigation Tabs
     tab_home, tab_explorer, tab_eda, tab_model, tab_predict = st.tabs([
         "Overview", 
         "Data Explorer", 
@@ -837,9 +819,6 @@ else:
         "Predictor"
     ])
     
-    # ------------------------------------------
-    # TAB 1: HOME
-    # ------------------------------------------
     with tab_home:
         col_main, col_ipo = st.columns([13, 10])
         
@@ -928,9 +907,6 @@ else:
             st.markdown(m3_metric_card("Average Error (MAE)", f"{training_results['mae']:.1f} students", "bar_chart"), unsafe_allow_html=True)
             st.markdown("</div></div>", unsafe_allow_html=True)
 
-    # ------------------------------------------
-    # TAB 2: DATA EXPLORER
-    # ------------------------------------------
     with tab_explorer:
         st.markdown("""
         <div class="m3-card" style="margin-bottom: 24px;">
@@ -981,9 +957,6 @@ else:
         """, unsafe_allow_html=True)
         st.dataframe(filtered_df.describe().T, use_container_width=True)
 
-    # ------------------------------------------
-    # TAB 3: EDA DASHBOARD
-    # ------------------------------------------
     with tab_eda:
         st.markdown("""
         <div class="m3-card">
@@ -1019,9 +992,6 @@ else:
             st_echarts(fig4)
             st.caption("Line Chart: Highlights the aggregate sum of student memberships collected per academic period across the main campus.")
 
-    # ------------------------------------------
-    # TAB 4: MODEL RESULTS
-    # ------------------------------------------
     with tab_model:
         st.markdown("""
         <div class="m3-card">
@@ -1106,9 +1076,6 @@ else:
             fig_resid = plot_residual_chart(y_test, y_pred)
             st_echarts(fig_resid)
 
-    # ------------------------------------------
-    # TAB 5: PREDICTOR PLAYGROUND
-    # ------------------------------------------
     with tab_predict:
         col_inputs, col_gauge = st.columns([11, 10])
         

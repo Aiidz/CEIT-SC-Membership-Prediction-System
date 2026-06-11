@@ -8,10 +8,7 @@ import pickle
 import os
 
 def train_model(df: pd.DataFrame, model_dir: str = "models") -> dict:
-    """
-    Splits data, trains the MLR model (scikit-learn & statsmodels),
-    saves the scikit-learn model, and returns performance metrics + statsmodels summary.
-    """
+    """Train MLR model, save it, and return metrics + OLS summary."""
     features = [
         'population', 
         'payment_ratio', 
@@ -21,7 +18,6 @@ def train_model(df: pd.DataFrame, model_dir: str = "models") -> dict:
         'events_held'
     ]
     
-    # Verify features are in dataframe
     for f in features:
         if f not in df.columns:
             raise ValueError(f"Required feature column '{f}' is missing from the dataset.")
@@ -32,29 +28,22 @@ def train_model(df: pd.DataFrame, model_dir: str = "models") -> dict:
     X = df[features]
     y = df['paid_memberships']
     
-    # 80/20 Split with fixed random_state for reproducibility
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    # 1. Train scikit-learn model (for serialization & production prediction)
     model = LinearRegression()
     model.fit(X_train, y_train)
     
-    # Save scikit-learn model
     os.makedirs(model_dir, exist_ok=True)
     model_path = os.path.join(model_dir, "ceitsc_model.pkl")
     with open(model_path, "wb") as f:
         pickle.dump(model, f)
         
-    # Make predictions
     y_pred = model.predict(X_test)
     
-    # Calculate scikit-learn metrics
     mae = mean_absolute_error(y_test, y_pred)
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
     r2 = r2_score(y_test, y_pred)
     
-    # 2. Train statsmodels OLS model (for detailed p-values and confidence intervals)
-    # statsmodels needs an explicit constant (intercept) column
     X_train_sm = sm.add_constant(X_train)
     ols_model = sm.OLS(y_train, X_train_sm).fit()
     

@@ -1,138 +1,128 @@
 # CEIT-SC Membership Prediction System
 
-A **Machine Learning** dashboard that uses **Multiple Linear Regression (MLR)** to predict CEIT Student Council membership fee collections per program per semester. Built with **Python**, **scikit-learn**, **statsmodels**, and **Streamlit**.
+A decision support tool that uses Multiple Linear Regression to predict CEIT Student Council membership fee collections per program per semester. Built with Python, scikit-learn, statsmodels, and Streamlit.
 
-The system trains a regression model on 6 input features (population, payment ratio, semester, benefits claimed, officer count, events held) to forecast paid memberships ($Y$). Student council officers can adjust inputs in the Predictor playground and see real-time predictions backed by statistical significance testing.
+**Live App:** [aiidz-ceit-sc-membership-prediction-system-app-ephhl0.streamlit.app](https://aiidz-ceit-sc-membership-prediction-system-app-ephhl0.streamlit.app/)
+
+## Overview
+
+The student council at Cavite State University (CEIT) collects membership fees from students across different programs. Planning budgets, events, and benefits requires forecasting how many students will pay each semester. This system trains a regression model on historical enrollment and collection data, then lets officers interactively predict outcomes by adjusting inputs.
+
+The model uses 6 input features — program population, payment ratio, semester, benefits claimed, officer count, and events held — to predict paid membership counts. Statistical significance testing is included to identify which variables actually matter.
 
 ## Features
 
-* **ML Regression Model:** scikit-learn `LinearRegression` trained on historical enrollment and collection data.
-* **Statistical Analysis:** Statsmodels `OLS` produces p-values, coefficients, and significance metrics for each feature.
-* **Interactive EDA:** Correlation heatmaps, scatter plots, trend lines, and bar charts with interactive ECharts.
-* **Data Explorer:** Filterable table view of raw and cleaned datasets with CSV export.
-* **Predictor Playground:** Adjust 6 input variables via sliders/radios and see instant prediction results.
-* **Dark Slate + Orange Theme:** Professional dark-mode UI with glassmorphism cards, hover animations, and Material Symbols Outlined icons.
+- Multiple Linear Regression via scikit-learn, with OLS statistical analysis from statsmodels
+- Interactive EDA dashboard with correlation heatmaps, scatter plots, and trend charts
+- Data explorer with filters and CSV export
+- Predictor playground where you adjust inputs and see real-time predictions
+- Dark theme UI
 
 ## Project Structure
 
 ```
 ceitsc-membership-prediction/
-│
-├── .streamlit/
-│   └── config.toml             # Streamlit theme config (dark slate + orange)
-│
+├── .streamlit/config.toml        # Streamlit theme config
 ├── data/
-│   ├── ceitsc_raw.csv          # Raw enrollment and collection records (2021–2025)
-│   └── ceitsc_cleaned.csv      # Preprocessed and cleaned dataset
-│
+│   ├── ceitsc_raw.csv            # Raw enrollment records (2021–2025)
+│   └── ceitsc_cleaned.csv        # Preprocessed dataset
 ├── models/
-│   └── ceitsc_model.pkl        # Saved trained MLR model (pickle file)
-│
+│   └── ceitsc_model.pkl          # Trained MLR model
 ├── src/
-│   ├── preprocess.py           # Preprocessing script (raw -> cleaned data)
-│   └── train.py                # Model training, stats OLS analysis, & evaluation
-│
-├── app.py                      # Main Streamlit web application & interface
-├── requirements.txt            # Python dependencies
-└── README.md                   # Project documentation
+│   ├── preprocess.py             # Data cleaning pipeline
+│   └── train.py                  # Model training and OLS analysis
+├── app.py                        # Main Streamlit application
+├── requirements.txt              # Python dependencies
+└── README.md
 ```
 
-## Installation
+## Getting Started
 
 ### Prerequisites
 
-* Python 3.10+
-* Git
+- Python 3.10+
+- Git
 
----
-
-### 1. Clone the repository
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/Aiidz/CEIT-SC-Membership-Prediction-System.git
 cd CEIT-SC-Membership-Prediction-System
 ```
 
-### 2. Set up the Python virtual environment
-
-Create a virtual environment and install dependencies using `uv`:
+### 2. Set up virtual environment
 
 ```bash
-# Create a virtual environment using uv
-uv venv
-
-# Activate the virtual environment
-# Windows:
-.venv\Scripts\activate
-# macOS / Linux:
-source .venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate        # Linux/macOS
+.venv\Scripts\activate           # Windows
 ```
 
 ### 3. Install dependencies
 
 ```bash
-uv pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-## Usage
+## Running Locally
 
-### 1. Preprocess the data
-Runs the cleaning pipeline to filter missing entries, calculate features like `payment_ratio`, and map categorical indicators.
+### Preprocess the data
+
 ```bash
 python src/preprocess.py
 ```
 
-### 2. Train the ML model
-Fits the scikit-learn regression model, exports the OLS statistical summary from `statsmodels` (including p-values), and saves the trained model binary.
+### Train the model
+
 ```bash
 python src/train.py
 ```
 
-### 3. Start the Streamlit App
-Launches the interactive dashboard locally.
+### Launch the app
+
 ```bash
-uv run streamlit run app.py
+streamlit run app.py
 ```
-App runs at `http://localhost:8501`.
+
+The app opens at `http://localhost:8501`.
 
 ## Dashboard Sections
 
-The interactive Streamlit application contains the following core views:
-
-| Tab | Description | Key Components |
-|-----|-------------|----------------|
-| Overview | Project overview, objectives, and metadata | Research questions, system architecture (IPO), active model performance |
-| Data Explorer | Interactive tabular data view | Data filters (program, semester), basic statistics, CSV downloader |
-| EDA Dashboard | Exploratory data visualizations | Correlation heatmap, program comparisons, population vs. payment scatter, trend line |
-| Model Results | Evaluation metrics and OLS statistics | $R^2$, MAE, RMSE, coefficient table with p-values, residual plot, regression equation |
-| Predictor | Prediction playground | Interactive sliders/radios for 6 features, predicted membership count, strategy advisor |
+| Tab | What it does |
+|-----|-------------|
+| Overview | Project objectives, research questions, IPO diagram, and current model performance |
+| Data Explorer | Filterable table view of the dataset with basic statistics and CSV download |
+| EDA Dashboard | Correlation heatmap, program comparisons, population vs. payment scatter, membership trends |
+| Model Results | R², MAE, RMSE metrics, coefficient table with p-values, residual plot, regression equation |
+| Predictor | Interactive sliders/radios for 6 features, instant prediction output, strategy advisor |
 
 ## Model Variables
 
-### Dependent Variable (Y)
-* `paid_memberships`: Total number of students per program who paid the CEIT-SC membership fee that semester.
+**Target:** `paid_memberships` — number of students per program who paid the council fee that semester.
 
-### Independent Variables (X)
-* $X_1$ (`population`): Total enrolled students in the program that semester.
-* $X_2$ (`payment_ratio`): Proportion of online payments (online payments / total payments).
-* $X_3$ (`semester_indicator`): Binary indicator (1 = First Semester, 0 = Second Semester).
-* $X_4$ (`benefits_claimed`): Number of membership benefits redeemed per program per semester.
-* $X_5$ (`officer_count`): Number of active student council officers assigned to that program.
-* $X_6$ (`events_held`): Total student council events held that semester.
+**Features:**
 
-### MLR Formula
+| Variable | Description |
+|----------|------------|
+| X₁ `population` | Total enrolled students in the program |
+| X₂ `payment_ratio` | Proportion of online payments (online / total) |
+| X₃ `semester_indicator` | 1 = 1st semester, 0 = 2nd semester |
+| X₄ `benefits_claimed` | Number of membership benefits redeemed |
+| X₅ `officer_count` | Active student council officers for the program |
+| X₆ `events_held` | Total council events held that semester |
+
+**Regression equation:**
+
 $$Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3X_3 + \beta_4X_4 + \beta_5X_5 + \beta_6X_6 + \epsilon$$
-
-*Note: Evaluation goal requires model fit of $R^2 \ge 0.85$.*
 
 ## Requirements
 
-* `streamlit>=1.30.0`
-* `pandas>=2.0.0`
-* `numpy>=1.24.0`
-* `scikit-learn>=1.2.0`
-* `statsmodels>=0.14.0`
+- streamlit >= 1.30.0
+- pandas >= 2.0.0
+- numpy >= 1.24.0
+- scikit-learn >= 1.2.0
+- statsmodels >= 0.14.0
 
 ## License
 
-Developed by the CPEN70 CPES Group (Cavite State University — Main Campus) for academic and educational purposes.
+Developed by the CPEN70 CPES Group (Cavite State University — Main Campus) for academic purposes.
